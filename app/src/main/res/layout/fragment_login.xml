@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/hello_blank_fragment" />
+
+    <!-- Rectangle 1 -->
+    <View
+        android:id="@+id/rectangle_1"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:background="@drawable/rectangle_1" />
+
+</FrameLayout>
