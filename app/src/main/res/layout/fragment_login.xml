@@ -1,20 +1,21 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="20dp"
+        tools:context=".LoginFragment">
 
-    <!-- Rectangle 1 -->
-    <View
-        android:id="@+id/rectangle_1"
-        android:layout_width="350dp"
-        android:layout_height="45dp"
-        android:background="@drawable/rectangle_1" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/hello_blank_fragment" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+
+</layout>
