@@ -25,12 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="180sp"
             android:layout_marginBottom="40dp"
-            android:src="@drawable/image_no_bg"
+            android:src="@drawable/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,7 +43,6 @@
             app:layout_constraintBottom_toTopOf="@id/form_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
 
         <LinearLayout
             android:id="@+id/form_email"
@@ -137,7 +136,9 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center_horizontal|center_vertical"
+            android:paddingBottom="5dp"
             android:text="Login"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/or"
@@ -162,14 +163,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/google_button_box"
+            android:background="@drawable/button_style_google"
+            android:drawableStart="@drawable/google_icon"
             android:gravity="center_horizontal|center_vertical"
+            android:paddingStart="10dp"
+            android:paddingBottom="2dp"
             android:text="Login with Google"
+            android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/btn_register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="RtlSymmetry"
             tools:layout_editor_absoluteY="552dp" />
 
         <TextView
