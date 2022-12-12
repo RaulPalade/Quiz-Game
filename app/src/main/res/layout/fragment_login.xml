@@ -63,15 +63,16 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/email_et"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/label_box"
                 android:gravity="center_vertical"
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
+                android:text="raul@mail.com"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -96,7 +97,7 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,6 +106,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
+                android:text="123456"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -203,6 +205,41 @@
             android:layout_height="wrap_content"
             app:barrierDirection="left"
             app:constraint_referenced_ids="btn_login" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="image" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="711dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="top"
+            app:constraint_referenced_ids="image" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="20dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
