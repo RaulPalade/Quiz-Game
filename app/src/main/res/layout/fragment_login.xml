@@ -34,7 +34,7 @@
             android:id="@+id/header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             android:gravity="center_horizontal"
             android:text="LOGIN"
             android:textColor="@color/black"
@@ -62,13 +62,20 @@
                 android:layout_marginBottom="6dp"
                 android:text="Email"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/email_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/label_box" />
+                android:background="@drawable/label_box"
+                android:gravity="center_vertical"
+                android:inputType="textEmailAddress"
+                android:paddingStart="12dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,13 +95,20 @@
                 android:layout_marginBottom="10dp"
                 android:text="Password"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/label_box" />
+                android:background="@drawable/label_box"
+                android:gravity="center_vertical"
+                android:inputType="textPassword"
+                android:paddingStart="12dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
 
@@ -107,7 +121,7 @@
             android:gravity="end"
             android:text="Forgot Password?"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/btn_login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -116,7 +130,7 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/button_style"
             android:clickable="true"
             android:cursorVisible="false"
@@ -125,7 +139,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:text="Login"
             android:textColor="@color/white"
-            android:textSize="28sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/or"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -134,11 +148,11 @@
             android:id="@+id/or"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"
             android:text="or"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/btn_login_google"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -147,12 +161,12 @@
             android:id="@+id/btn_login_google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:background="@drawable/google_button_box"
             android:gravity="center_horizontal|center_vertical"
             android:text="Login with Google"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/btn_register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -165,7 +179,7 @@
             android:gravity="center_horizontal"
             android:text="New to the game? Register"
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

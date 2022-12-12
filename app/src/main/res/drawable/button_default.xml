@@ -17,7 +17,7 @@
             <stroke android:width="2dp" />
             <size
                 android:width="350dp"
-                android:height="50dp" />
+                android:height="40dp" />
             <solid android:color="@color/orange" />
             <corners android:radius="100dp" />
         </shape>
