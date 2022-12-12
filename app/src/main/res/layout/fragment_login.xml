@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="loginViewModel"
+            type="com.raulp.quizgame.viewmodel.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,7 +75,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
-                android:text="raul@mail.com"
+                android:text="@={loginViewModel.email}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -106,7 +109,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
-                android:text="123456"
+                android:text="@={loginViewModel.password}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -138,6 +141,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center_horizontal|center_vertical"
+            android:onClick="@{() -> loginViewModel.login()}"
             android:paddingBottom="5dp"
             android:text="Login"
             android:textAllCaps="false"
@@ -232,7 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp" />
+            app:layout_constraintGuide_end="711dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline4"
@@ -240,6 +244,37 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="20dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="left"
+            app:constraint_referenced_ids="header_title" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="header_title" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="image" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="image" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
