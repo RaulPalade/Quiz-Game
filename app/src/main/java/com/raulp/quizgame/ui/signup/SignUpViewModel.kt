@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.raulp.quizgame.data.User
 
 /**
  * @author Raul Palade
@@ -33,6 +35,7 @@ class SignUpViewModel : ViewModel() {
         get() = _showSnackbarEventPassword
 
     fun signUp() {
+        val name = name.value.toString()
         val email = email.value.toString()
         val password = password.value.toString()
 
@@ -41,11 +44,16 @@ class SignUpViewModel : ViewModel() {
             return
         }
 
+        val db = Firebase.firestore
         auth = Firebase.auth
-
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
-                _navigateToSignIn.value = true
+                val user = User(name, email)
+                db.collection("users").add(user).addOnSuccessListener {
+                    _navigateToSignIn.value = true
+                }.addOnFailureListener {
+                    _showSnackbarEventEmail.value = true
+                }
             }.addOnFailureListener {
                 _showSnackbarEventEmail.value = true
             }

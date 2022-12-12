@@ -34,6 +34,7 @@ class SignUpFragment : Fragment() {
             if (it == true) {
                 val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
                 this.findNavController().navigate(action)
+                viewModel.doneNavigationToLogin()
             }
         }
 
@@ -55,6 +56,27 @@ class SignUpFragment : Fragment() {
                     )
                 ).show()
                 viewModel.doneShowSnackbarEmail()
+            }
+        }
+
+        viewModel.showSnackbarEventPassword.observe(viewLifecycleOwner) {
+            if (it == true) {
+                Snackbar.make(
+                    requireActivity().findViewById(android.R.id.content),
+                    "Minimum passowrd length is 6 characters",
+                    Snackbar.LENGTH_SHORT
+                ).setBackgroundTint(
+                    ContextCompat.getColor(
+                        this.requireContext(),
+                        R.color.orange
+                    )
+                ).setTextColor(
+                    ContextCompat.getColor(
+                        this.requireContext(),
+                        R.color.white
+                    )
+                ).show()
+                viewModel.doneShowSnackbarPassword()
             }
         }
     }
