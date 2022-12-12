@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="signUpViewModel"
+            type="com.raulp.quizgame.ui.signup.SignUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,6 +75,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
+                android:text="@={signUpViewModel.name}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -105,6 +109,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
+                android:text="@={signUpViewModel.email}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -138,6 +143,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
+                android:text="@={signUpViewModel.password}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -154,6 +160,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center_horizontal|center_vertical"
+            android:onClick="@{() -> signUpViewModel.signUp()}"
             android:paddingBottom="5dp"
             android:text="Create Account"
             android:textAllCaps="false"

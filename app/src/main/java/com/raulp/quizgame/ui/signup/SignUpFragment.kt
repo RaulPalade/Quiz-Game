@@ -1,6 +1,5 @@
-package com.raulp.quizgame.ui.signin
+package com.raulp.quizgame.ui.signup
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,42 +9,39 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.raulp.quizgame.MainActivity
 import com.raulp.quizgame.R
-import com.raulp.quizgame.databinding.FragmentSignInBinding
+import com.raulp.quizgame.databinding.FragmentSignUpBinding
 
-class SignInFragment : Fragment() {
-    private lateinit var binding: FragmentSignInBinding
-    private val viewModel: SignInViewModel by viewModels()
+
+class SignUpFragment : Fragment() {
+    private lateinit var binding: FragmentSignUpBinding
+    private val viewModel: SignUpViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSignInBinding.inflate(inflater, container, false)
-
+        binding = FragmentSignUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
-        binding.signInViewModel = viewModel
+        binding.signUpViewModel = viewModel
 
-        viewModel.navigateToHome.observe(viewLifecycleOwner) {
+        viewModel.navigateToSignIn.observe(viewLifecycleOwner) {
             if (it == true) {
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-                activity?.finish()
-                viewModel.doneNavigationToHome()
+                val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
+                this.findNavController().navigate(action)
             }
         }
 
-        viewModel.showSnackbarEvent.observe(viewLifecycleOwner) {
+        viewModel.showSnackbarEventEmail.observe(viewLifecycleOwner) {
             if (it == true) {
                 Snackbar.make(
                     requireActivity().findViewById(android.R.id.content),
-                    "Credentials are incorrect",
+                    "Email not valid",
                     Snackbar.LENGTH_SHORT
                 ).setBackgroundTint(
                     ContextCompat.getColor(
@@ -58,18 +54,8 @@ class SignInFragment : Fragment() {
                         R.color.white
                     )
                 ).show()
-                viewModel.doneShowSnackbar()
+                viewModel.doneShowSnackbarEmail()
             }
-        }
-
-        binding.btnForgotPassword.setOnClickListener {
-            val action = SignInFragmentDirections.actionSignInFragmentToForgotPasswordFragment()
-            this.findNavController().navigate(action)
-        }
-
-        binding.btnRegister.setOnClickListener {
-            val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
-            this.findNavController().navigate(action)
         }
     }
 }
