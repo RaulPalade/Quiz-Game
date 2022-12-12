@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.raulp.quizgame.fragment.ForgotPasswordFragment"
+        android:name="com.raulp.quizgame.ui.forgotpassword.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password">
         <action
