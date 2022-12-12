@@ -5,12 +5,12 @@
     <data>
 
         <variable
-            name="loginViewModel"
-            type="com.raulp.quizgame.viewmodel.LoginViewModel" />
+            name="signInViewModel"
+            type="com.raulp.quizgame.ui.signin.SignInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/login_root_layout"
+        android:id="@+id/sign_in_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background"
@@ -20,7 +20,7 @@
         android:paddingBottom="40dp"
         app:layout_constraintBottom_toTopOf="@+id/form_password"
         app:layout_constraintTop_toTopOf="@+id/form_password"
-        tools:context=".fragment.LoginFragment">
+        tools:context=".ui.signin.SignInFragment">
 
 
         <ImageView
@@ -75,7 +75,7 @@
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
-                android:text="@={loginViewModel.email}"
+                android:text="@={signInViewModel.email}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -109,7 +109,7 @@
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
-                android:text="@={loginViewModel.password}"
+                android:text="@={signInViewModel.password}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
                 tools:ignore="RtlSymmetry" />
@@ -141,7 +141,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:gravity="center_horizontal|center_vertical"
-            android:onClick="@{() -> loginViewModel.login()}"
+            android:onClick="@{() -> signInViewModel.signIn()}"
             android:paddingBottom="5dp"
             android:text="Login"
             android:textAllCaps="false"

@@ -1,4 +1,4 @@
-package com.raulp.quizgame.fragment
+package com.raulp.quizgame.ui.signin
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,19 +12,18 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.raulp.quizgame.MainActivity
 import com.raulp.quizgame.R
-import com.raulp.quizgame.databinding.FragmentLoginBinding
-import com.raulp.quizgame.viewmodel.LoginViewModel
+import com.raulp.quizgame.databinding.FragmentSignInBinding
 
-class LoginFragment : Fragment() {
-    private val viewModel: LoginViewModel by viewModels()
+class SignInFragment : Fragment() {
+    private val viewModel: SignInViewModel by viewModels()
 
-    private lateinit var binding: FragmentLoginBinding
+    private lateinit var binding: FragmentSignInBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = FragmentSignInBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -32,7 +31,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
-        binding.loginViewModel = viewModel
+        binding.signInViewModel = viewModel
 
         viewModel.navigateToHome.observe(viewLifecycleOwner) {
             if (it == true) {
@@ -65,13 +64,12 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnForgotPassword.setOnClickListener {
-            val action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
+            val action = SignInFragmentDirections.actionSignInFragmentToForgotPasswordFragment()
             this.findNavController().navigate(action)
         }
 
         binding.btnRegister.setOnClickListener {
-            val action =
-                LoginFragmentDirections.actionLoginFragmentToRegistrationFragment()
+            val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             this.findNavController().navigate(action)
         }
     }

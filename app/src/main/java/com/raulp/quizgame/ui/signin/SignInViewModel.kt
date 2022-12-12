@@ -1,4 +1,4 @@
-package com.raulp.quizgame.viewmodel
+package com.raulp.quizgame.ui.signin
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +13,7 @@ import com.google.firebase.ktx.Firebase
  * @project QuizGame
  */
 
-class LoginViewModel : ViewModel() {
+class SignInViewModel : ViewModel() {
     private lateinit var auth: FirebaseAuth
 
     var email = MutableLiveData<String>()
@@ -27,7 +27,7 @@ class LoginViewModel : ViewModel() {
     val showSnackbarEvent: LiveData<Boolean>
         get() = _showSnackbarEvent
 
-    fun login() {
+    fun signIn() {
         val email = email.value.toString()
         val password = password.value.toString()
 
