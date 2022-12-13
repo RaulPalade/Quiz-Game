@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -25,6 +26,7 @@ import com.raulp.quizgame.R
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentSignInBinding
 import com.raulp.quizgame.repository.AuthRepository
+import kotlinx.coroutines.launch
 
 
 class SignInFragment : Fragment() {
@@ -54,6 +56,8 @@ class SignInFragment : Fragment() {
         if (viewModel.checkIfUserLoggedIn()) {
             goToHome()
         }
+
+        binding.btnLogin.setOnClickListener { lifecycleScope.launch { viewModel.signIn() } }
 
         viewModel.loginStatus.observe(viewLifecycleOwner) { login ->
             when (login) {
@@ -127,7 +131,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
-        viewModel.signInWithGoogle(googleAuthCredential)
+        //viewModel.signInWithGoogle(googleAuthCredential)
         viewModel.loginStatus.observe(viewLifecycleOwner) { authenticatedUser ->
             when (authenticatedUser) {
                 is Response.Failure -> {

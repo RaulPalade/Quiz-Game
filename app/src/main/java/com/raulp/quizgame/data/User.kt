@@ -1,6 +1,7 @@
 package com.raulp.quizgame.data
 
 import com.google.firebase.firestore.ServerTimestamp
+import java.io.Serializable
 import java.util.*
 
 /**
@@ -14,4 +15,4 @@ data class User(
     val email: String,
     @ServerTimestamp
     val timestamp: Date? = null
-)
+) : Serializable

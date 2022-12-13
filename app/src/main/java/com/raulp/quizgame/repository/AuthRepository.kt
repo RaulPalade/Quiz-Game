@@ -1,12 +1,11 @@
 package com.raulp.quizgame.repository
 
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.raulp.quizgame.ResponseState
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.User
+import kotlinx.coroutines.tasks.await
 
 /**
  * @author Raul Palade
@@ -14,33 +13,30 @@ import com.raulp.quizgame.data.User
  * @project QuizGame
  */
 
-class AuthRepository {
+class AuthRepository : IAuthRepository {
     private val auth = FirebaseAuth.getInstance()
     private val rootRef = FirebaseFirestore.getInstance()
     private val usersRef = rootRef.collection("users")
-    private var logged = false;
 
-    fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<User>> {
-        val authenticatedUserMutableLiveData: MutableLiveData<ResponseState<User>> =
-            MutableLiveData()
-
-        println("REPOSITORY")
-
-        auth.signInWithCredential(googleAuthCredential).addOnCompleteListener { authTask ->
-            if (authTask.isSuccessful) {
-                val firebaseUser: FirebaseUser? = auth.currentUser
-                if (firebaseUser != null) {
-                    val name = firebaseUser.displayName
-                    val email = firebaseUser.email
-                    val user = User(name.toString(), email.toString())
-                    authenticatedUserMutableLiveData.value = ResponseState.Success(user)
-                }
-            } else {
-                authenticatedUserMutableLiveData.value = authTask.exception?.message?.let {
-                    ResponseState.Error(it)
-                }
-            }
+    override suspend fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): Response<User> {
+        val response = auth.signInWithCredential(googleAuthCredential).await()
+        return if (response.user != null) {
+            val user =
+                User(response.user!!.displayName.toString(), response.user!!.email.toString())
+            Response.Success(user)
+        } else {
+            Response.Failure("Errore durante il login")
         }
-        return authenticatedUserMutableLiveData
+    }
+
+    override suspend fun signIn(email: String, password: String): Response<User> {
+        val response = auth.signInWithEmailAndPassword(email, password).await()
+        return if (response.user != null) {
+            val user =
+                User(response.user!!.displayName.toString(), response.user!!.email.toString())
+            Response.Success(user)
+        } else {
+            Response.Failure("Errore durante il login")
+        }
     }
 }
