@@ -36,6 +36,10 @@ class SignInViewModel : ViewModel() {
         Firebase.auth.signOut();
     }
 
+    fun signInWithGoogle() {
+
+    }
+
     fun signIn() {
         val email = email.value.toString()
         val password = password.value.toString()

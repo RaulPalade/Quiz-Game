@@ -44,7 +44,6 @@ class SignUpViewModel : ViewModel() {
             return
         }
 
-
         auth = Firebase.auth
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
@@ -54,11 +53,6 @@ class SignUpViewModel : ViewModel() {
             }.addOnFailureListener {
                 _showSnackbarEventEmail.value = true
             }
-    }
-
-    fun signUpWithGoogle() {
-        val db = Firebase.firestore
-
     }
 
     private fun sendVerificationEmail() {

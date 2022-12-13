@@ -63,7 +63,7 @@ class SignUpFragment : Fragment() {
             if (it == true) {
                 Snackbar.make(
                     requireActivity().findViewById(android.R.id.content),
-                    "Minimum passowrd length is 6 characters",
+                    "Minimum password length is 6 characters",
                     Snackbar.LENGTH_SHORT
                 ).setBackgroundTint(
                     ContextCompat.getColor(
