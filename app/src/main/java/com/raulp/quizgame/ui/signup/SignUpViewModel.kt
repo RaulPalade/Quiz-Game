@@ -44,19 +44,30 @@ class SignUpViewModel : ViewModel() {
             return
         }
 
-        val db = Firebase.firestore
+
         auth = Firebase.auth
         auth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener {
                 val user = User(name, email)
-                db.collection("users").add(user).addOnSuccessListener {
-                    _navigateToSignIn.value = true
-                }.addOnFailureListener {
-                    _showSnackbarEventEmail.value = true
-                }
+                sendVerificationEmail()
+                addUserOnFirestore(user)
             }.addOnFailureListener {
                 _showSnackbarEventEmail.value = true
             }
+    }
+
+    private fun sendVerificationEmail() {
+        val user = Firebase.auth.currentUser
+        user!!.sendEmailVerification()
+    }
+
+    private fun addUserOnFirestore(user: User) {
+        val db = Firebase.firestore
+        db.collection("users").add(user).addOnSuccessListener {
+            _navigateToSignIn.value = true
+        }.addOnFailureListener {
+            _showSnackbarEventEmail.value = true
+        }
     }
 
     fun doneNavigationToLogin() {

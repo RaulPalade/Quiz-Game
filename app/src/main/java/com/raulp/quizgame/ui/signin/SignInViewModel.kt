@@ -32,6 +32,10 @@ class SignInViewModel : ViewModel() {
         return user != null
     }
 
+    fun logOut() {
+        Firebase.auth.signOut();
+    }
+
     fun signIn() {
         val email = email.value.toString()
         val password = password.value.toString()

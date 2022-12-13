@@ -32,6 +32,8 @@ class SignInFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.signInViewModel = viewModel
 
+        viewModel.logOut()
+
         if (viewModel.checkIfUserLoggedIn()) {
             goToHome()
         }
