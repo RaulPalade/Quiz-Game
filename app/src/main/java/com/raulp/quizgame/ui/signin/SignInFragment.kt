@@ -32,11 +32,13 @@ class SignInFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.signInViewModel = viewModel
 
+        if (viewModel.checkIfUserLoggedIn()) {
+            goToHome()
+        }
+
         viewModel.navigateToHome.observe(viewLifecycleOwner) {
             if (it == true) {
-                val intent = Intent(context, MainActivity::class.java)
-                startActivity(intent)
-                activity?.finish()
+                goToHome()
                 viewModel.doneNavigationToHome()
             }
         }
@@ -71,5 +73,11 @@ class SignInFragment : Fragment() {
             val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             this.findNavController().navigate(action)
         }
+    }
+
+    private fun goToHome() {
+        val intent = Intent(context, MainActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
     }
 }

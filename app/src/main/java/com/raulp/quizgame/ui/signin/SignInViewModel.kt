@@ -27,6 +27,11 @@ class SignInViewModel : ViewModel() {
     val showSnackbarEvent: LiveData<Boolean>
         get() = _showSnackbarEvent
 
+    fun checkIfUserLoggedIn(): Boolean {
+        val user = Firebase.auth.currentUser
+        return user != null
+    }
+
     fun signIn() {
         val email = email.value.toString()
         val password = password.value.toString()
