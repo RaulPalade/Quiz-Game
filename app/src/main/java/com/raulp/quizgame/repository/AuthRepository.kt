@@ -5,7 +5,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.raulp.quizgame.Response
 import com.raulp.quizgame.ResponseState
 import com.raulp.quizgame.data.User
 
@@ -43,16 +42,5 @@ class AuthRepository {
             }
         }
         return authenticatedUserMutableLiveData
-    }
-
-    fun signIn(email: String, password: String): Response<Boolean> {
-        println("XX")
-        println(auth.signInWithEmailAndPassword(email, password).isSuccessful)
-        return if (auth.signInWithEmailAndPassword(email, password).isComplete) {
-            println("YY")
-            Response.Success(true)
-        } else {
-            Response.Failure("ERRORE NEL LOGIN")
-        }
     }
 }

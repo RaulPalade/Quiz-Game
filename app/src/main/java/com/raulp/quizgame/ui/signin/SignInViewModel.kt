@@ -26,10 +26,6 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
     val loginStatus: LiveData<Response<Boolean>>
         get() = _loginStatus
 
-    fun signInWithGoogle(googleAuthCredential: AuthCredential) {
-        authRepository.firebaseSignInWithGoogle(googleAuthCredential)
-    }
-
     fun checkIfUserLoggedIn(): Boolean {
         val user = Firebase.auth.currentUser
         return user != null
@@ -39,16 +35,21 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
         Firebase.auth.signOut();
     }
 
-    fun signInWithGoogle() {
-
-    }
-
     fun signIn() {
         val email = email.value.toString()
         val password = password.value.toString()
 
         auth = Firebase.auth
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+            _loginStatus.postValue(Response.Success(true))
+        }.addOnFailureListener {
+            _loginStatus.postValue(Response.Failure("Error during login"))
+        }
+    }
+
+    fun signInWithGoogle(googleAuthCredential: AuthCredential) {
+        auth = Firebase.auth
+        auth.signInWithCredential(googleAuthCredential).addOnSuccessListener {
             _loginStatus.postValue(Response.Success(true))
         }.addOnFailureListener {
             _loginStatus.postValue(Response.Failure("Error during login"))
