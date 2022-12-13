@@ -7,8 +7,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.raulp.quizgame.ResponseState
-import com.raulp.quizgame.data.User
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.repository.AuthRepository
 
 /**
@@ -23,25 +22,13 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
     var email = MutableLiveData<String>()
     var password = MutableLiveData<String>()
 
-    private var _navigateToHome = MutableLiveData<Boolean>()
-    val navigateToHome: LiveData<Boolean>
-        get() = _navigateToHome
-
-    private var _showSnackbarEvent = MutableLiveData<Boolean>()
-    val showSnackbarEvent: LiveData<Boolean>
-        get() = _showSnackbarEvent
-
-    ////////////////////////
-    private var _authenticateUserLiveData: MutableLiveData<ResponseState<User>> = MutableLiveData()
-    val authenticateUserLiveData: LiveData<ResponseState<User>>
-        get() = _authenticateUserLiveData
+    private var _loginStatus = MutableLiveData<Response<Boolean>>()
+    val loginStatus: LiveData<Response<Boolean>>
+        get() = _loginStatus
 
     fun signInWithGoogle(googleAuthCredential: AuthCredential) {
-        println("VIEWMODEL")
-        _authenticateUserLiveData = authRepository.firebaseSignInWithGoogle(googleAuthCredential)
+        authRepository.firebaseSignInWithGoogle(googleAuthCredential)
     }
-    /////////////////////
-
 
     fun checkIfUserLoggedIn(): Boolean {
         val user = Firebase.auth.currentUser
@@ -61,20 +48,10 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
         val password = password.value.toString()
 
         auth = Firebase.auth
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                _navigateToHome.value = true
-            }
-            .addOnFailureListener {
-                _showSnackbarEvent.value = true
-            }
-    }
-
-    fun doneNavigationToHome() {
-        _navigateToHome.value = false;
-    }
-
-    fun doneShowSnackbar() {
-        _showSnackbarEvent.value = false
+        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
+            _loginStatus.postValue(Response.Success(true))
+        }.addOnFailureListener {
+            _loginStatus.postValue(Response.Failure("Error during login"))
+        }
     }
 }

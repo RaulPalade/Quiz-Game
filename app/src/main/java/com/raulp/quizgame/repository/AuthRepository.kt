@@ -5,6 +5,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.ResponseState
 import com.raulp.quizgame.data.User
 
@@ -15,9 +16,10 @@ import com.raulp.quizgame.data.User
  */
 
 class AuthRepository {
-    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val auth = FirebaseAuth.getInstance()
     private val rootRef = FirebaseFirestore.getInstance()
     private val usersRef = rootRef.collection("users")
+    private var logged = false;
 
     fun firebaseSignInWithGoogle(googleAuthCredential: AuthCredential): MutableLiveData<ResponseState<User>> {
         val authenticatedUserMutableLiveData: MutableLiveData<ResponseState<User>> =
@@ -25,9 +27,9 @@ class AuthRepository {
 
         println("REPOSITORY")
 
-        firebaseAuth.signInWithCredential(googleAuthCredential).addOnCompleteListener { authTask ->
+        auth.signInWithCredential(googleAuthCredential).addOnCompleteListener { authTask ->
             if (authTask.isSuccessful) {
-                val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
+                val firebaseUser: FirebaseUser? = auth.currentUser
                 if (firebaseUser != null) {
                     val name = firebaseUser.displayName
                     val email = firebaseUser.email
@@ -41,5 +43,16 @@ class AuthRepository {
             }
         }
         return authenticatedUserMutableLiveData
+    }
+
+    fun signIn(email: String, password: String): Response<Boolean> {
+        println("XX")
+        println(auth.signInWithEmailAndPassword(email, password).isSuccessful)
+        return if (auth.signInWithEmailAndPassword(email, password).isComplete) {
+            println("YY")
+            Response.Success(true)
+        } else {
+            Response.Failure("ERRORE NEL LOGIN")
+        }
     }
 }
