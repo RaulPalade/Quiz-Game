@@ -3,9 +3,13 @@ package com.raulp.quizgame.ui.signin
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.raulp.quizgame.ResponseState
+import com.raulp.quizgame.data.User
+import com.raulp.quizgame.repository.AuthRepository
 
 /**
  * @author Raul Palade
@@ -13,7 +17,7 @@ import com.google.firebase.ktx.Firebase
  * @project QuizGame
  */
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() {
     private lateinit var auth: FirebaseAuth
 
     var email = MutableLiveData<String>()
@@ -26,6 +30,18 @@ class SignInViewModel : ViewModel() {
     private var _showSnackbarEvent = MutableLiveData<Boolean>()
     val showSnackbarEvent: LiveData<Boolean>
         get() = _showSnackbarEvent
+
+    ////////////////////////
+    private var _authenticateUserLiveData: MutableLiveData<ResponseState<User>> = MutableLiveData()
+    val authenticateUserLiveData: LiveData<ResponseState<User>>
+        get() = _authenticateUserLiveData
+
+    fun signInWithGoogle(googleAuthCredential: AuthCredential) {
+        println("VIEWMODEL")
+        _authenticateUserLiveData = authRepository.firebaseSignInWithGoogle(googleAuthCredential)
+    }
+    /////////////////////
+
 
     fun checkIfUserLoggedIn(): Boolean {
         val user = Firebase.auth.currentUser

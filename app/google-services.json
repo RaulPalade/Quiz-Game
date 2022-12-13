@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "713337783977-r42oldeipd8k6ju9qv80edgidbtv6981.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.raulp.quizgame",
+            "certificate_hash": "be9bd07e82be67531b57bf643aaab201d72687b8"
+          }
+        },
+        {
           "client_id": "713337783977-9ugeadkupfl6pjjvqsvn3jamrft8gikj.apps.googleusercontent.com",
           "client_type": 3
         }

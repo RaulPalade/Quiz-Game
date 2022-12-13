@@ -2,5 +2,7 @@
     <string name="app_name">QuizGame</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="google_auth_client_id">BE:9B:D0:7E:82:BE:67:53:1B:57:BF:64:3A:AA:B2:01:D7:26:87:B8</string>
+    <string name="SHA1">BE:9B:D0:7E:82:BE:67:53:1B:57:BF:64:3A:AA:B2:01:D7:26:87:B8</string>
+    <string name="google_auth_client_id2">500198612520-mni3i324a3upo1o1e7vvb1v5okeck4qn.apps.googleusercontent.com</string>
+    <string name="google_auth_client_id">713337783977-9ugeadkupfl6pjjvqsvn3jamrft8gikj.apps.googleusercontent.com</string>
 </resources>
