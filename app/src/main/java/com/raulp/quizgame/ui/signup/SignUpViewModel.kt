@@ -50,10 +50,15 @@ class SignUpViewModel : ViewModel() {
             .addOnSuccessListener {
                 val user = User(name, email)
                 sendVerificationEmail()
-                addUserOnFirestore(user)
+                addUserOnFirestore(auth.uid.toString(), user)
             }.addOnFailureListener {
                 _showSnackbarEventEmail.value = true
             }
+    }
+
+    fun signUpWithGoogle() {
+        val db = Firebase.firestore
+
     }
 
     private fun sendVerificationEmail() {
@@ -61,13 +66,15 @@ class SignUpViewModel : ViewModel() {
         user!!.sendEmailVerification()
     }
 
-    private fun addUserOnFirestore(user: User) {
+    private fun addUserOnFirestore(id: String, user: User) {
         val db = Firebase.firestore
-        db.collection("users").add(user).addOnSuccessListener {
-            _navigateToSignIn.value = true
-        }.addOnFailureListener {
-            _showSnackbarEventEmail.value = true
-        }
+
+        db.collection("users").document(id).set(user)
+            .addOnSuccessListener {
+                _navigateToSignIn.value = true
+            }.addOnFailureListener {
+                _showSnackbarEventEmail.value = true
+            }
     }
 
     fun doneNavigationToLogin() {
