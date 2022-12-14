@@ -11,7 +11,6 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -26,8 +25,6 @@ import com.raulp.quizgame.R
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentSignInBinding
 import com.raulp.quizgame.repository.AuthRepository
-import kotlinx.coroutines.launch
-
 
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSignInBinding
@@ -46,10 +43,9 @@ class SignInFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
-        initGoogleSignInClient()
-
         binding.lifecycleOwner = this
         binding.signInViewModel = viewModel
+        initGoogleSignInClient()
 
         viewModel.logOut()
 
@@ -57,17 +53,17 @@ class SignInFragment : Fragment() {
             goToHome()
         }
 
-        binding.btnLogin.setOnClickListener { lifecycleScope.launch { viewModel.signIn() } }
-
-        viewModel.loginStatus.observe(viewLifecycleOwner) { login ->
-            when (login) {
+        viewModel.loginStatus.observe(viewLifecycleOwner) { loginStatus ->
+            when (loginStatus) {
                 is Response.Success -> {
                     goToHome()
                 }
                 is Response.Failure -> {
-                    makeSnackbar(login.message)
+                    errorSnackbar(loginStatus.message)
                 }
-                else -> {}
+                else -> {
+                    errorSnackbar("Service Unavailable")
+                }
             }
         }
 
@@ -76,13 +72,13 @@ class SignInFragment : Fragment() {
             this.findNavController().navigate(action)
         }
 
+        binding.btnLoginGoogle.setOnClickListener {
+            signInUsingGoogle()
+        }
+
         binding.btnRegister.setOnClickListener {
             val action = SignInFragmentDirections.actionSignInFragmentToSignUpFragment()
             this.findNavController().navigate(action)
-        }
-
-        binding.btnLoginGoogle.setOnClickListener {
-            signInUsingGoogle()
         }
     }
 
@@ -93,14 +89,17 @@ class SignInFragment : Fragment() {
         )[SignInViewModel::class.java]
     }
 
+    private fun goToHome() {
+        val intent = Intent(context, MainActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
+    }
+
     private fun initGoogleSignInClient() {
-        val id = getString(R.string.google_auth_client_id)
-        println("ID = $id")
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.google_auth_client_id))
             .requestEmail()
             .build()
-
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
     }
 
@@ -108,7 +107,6 @@ class SignInFragment : Fragment() {
         val signInGoogleIntent = googleSignInClient.signInIntent
         launcher.launch(signInGoogleIntent)
     }
-
 
     private val launcher: ActivityResultLauncher<Intent> =
         registerForActivityResult(StartActivityForResult()) { result ->
@@ -118,8 +116,8 @@ class SignInFragment : Fragment() {
                     // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
                     getGoogleAuthCredential(account)
-                } catch (e: ApiException) { // Update UI
-                    println("ERROR $e")
+                } catch (e: ApiException) {
+                    errorSnackbar(e.message.toString())
                 }
             }
         }
@@ -131,23 +129,10 @@ class SignInFragment : Fragment() {
     }
 
     private fun signInWithGoogleAuthCredential(googleAuthCredential: AuthCredential) {
-        //viewModel.signInWithGoogle(googleAuthCredential)
-        viewModel.loginStatus.observe(viewLifecycleOwner) { authenticatedUser ->
-            when (authenticatedUser) {
-                is Response.Failure -> {
-                    println("FAILURE")
-                }
-                is Response.Success -> {
-                    println("SUCCESS")
-                }
-                is Response.Loading -> {
-                    println("PROGRESS")
-                }
-            }
-        }
+        viewModel.signInWithGoogle(googleAuthCredential)
     }
 
-    private fun makeSnackbar(message: String) {
+    private fun errorSnackbar(message: String) {
         Snackbar.make(
             requireActivity().findViewById(android.R.id.content),
             message,
@@ -163,11 +148,5 @@ class SignInFragment : Fragment() {
                 R.color.white
             )
         ).show()
-    }
-
-    private fun goToHome() {
-        val intent = Intent(context, MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
     }
 }

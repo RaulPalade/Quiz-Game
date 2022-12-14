@@ -1,21 +1,25 @@
 package com.raulp.quizgame.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.raulp.quizgame.MainActivity
 import com.raulp.quizgame.R
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentSignUpBinding
+import com.raulp.quizgame.repository.AuthRepository
 
 
 class SignUpFragment : Fragment() {
     private lateinit var binding: FragmentSignUpBinding
-    private val viewModel: SignUpViewModel by viewModels()
+    private val authRepository = AuthRepository()
+    private lateinit var viewModel: SignUpViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,57 +31,53 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
         binding.lifecycleOwner = this
         binding.signUpViewModel = viewModel
 
-        viewModel.navigateToSignIn.observe(viewLifecycleOwner) {
-            if (it == true) {
-                val action = SignUpFragmentDirections.actionSignUpFragmentToSignInFragment()
-                this.findNavController().navigate(action)
-                viewModel.doneNavigationToLogin()
+        viewModel.registerStatus.observe(viewLifecycleOwner) { registerStatus ->
+            when (registerStatus) {
+                is Response.Success -> {
+                    goToHome()
+                }
+                is Response.Failure -> {
+                    errorSnackbar(registerStatus.message)
+                }
+                else -> {
+                    errorSnackbar("Service Unavailable")
+                }
             }
         }
+    }
 
-        viewModel.showSnackbarEventEmail.observe(viewLifecycleOwner) {
-            if (it == true) {
-                Snackbar.make(
-                    requireActivity().findViewById(android.R.id.content),
-                    "Email not valid",
-                    Snackbar.LENGTH_SHORT
-                ).setBackgroundTint(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.orange
-                    )
-                ).setTextColor(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.white
-                    )
-                ).show()
-                viewModel.doneShowSnackbarEmail()
-            }
-        }
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(
+            this,
+            SignUpViewModelFactory(authRepository)
+        )[SignUpViewModel::class.java]
+    }
 
-        viewModel.showSnackbarEventPassword.observe(viewLifecycleOwner) {
-            if (it == true) {
-                Snackbar.make(
-                    requireActivity().findViewById(android.R.id.content),
-                    "Minimum password length is 6 characters",
-                    Snackbar.LENGTH_SHORT
-                ).setBackgroundTint(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.orange
-                    )
-                ).setTextColor(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.white
-                    )
-                ).show()
-                viewModel.doneShowSnackbarPassword()
-            }
-        }
+    private fun goToHome() {
+        val intent = Intent(context, MainActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
+    }
+
+    private fun errorSnackbar(message: String) {
+        Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            message,
+            Snackbar.LENGTH_SHORT
+        ).setBackgroundTint(
+            ContextCompat.getColor(
+                this.requireContext(),
+                R.color.orange
+            )
+        ).setTextColor(
+            ContextCompat.getColor(
+                this.requireContext(),
+                R.color.white
+            )
+        ).show()
     }
 }

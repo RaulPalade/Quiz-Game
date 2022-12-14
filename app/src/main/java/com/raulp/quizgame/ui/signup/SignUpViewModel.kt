@@ -3,11 +3,12 @@ package com.raulp.quizgame.ui.signup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import androidx.lifecycle.viewModelScope
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.User
+import com.raulp.quizgame.repository.AuthRepository
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 /**
  * @author Raul Palade
@@ -15,71 +16,87 @@ import com.raulp.quizgame.data.User
  * @project QuizGame
  */
 
-class SignUpViewModel : ViewModel() {
-    private lateinit var auth: FirebaseAuth
-
+class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() {
     var name = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var password = MutableLiveData<String>()
 
-    private var _navigateToSignIn = MutableLiveData<Boolean>()
-    val navigateToSignIn: LiveData<Boolean>
-        get() = _navigateToSignIn
+    private var job: Job? = null
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        viewModelScope.launch(Dispatchers.Main) {
+            _registerStatus.postValue(Response.Failure("Exception handled: ${throwable.localizedMessage}"))
+        }
+    }
+    private val coroutineContext: CoroutineContext
+        get() = SupervisorJob() + Dispatchers.IO
 
-    private var _showSnackbarEventEmail = MutableLiveData<Boolean>()
-    val showSnackbarEventEmail: LiveData<Boolean>
-        get() = _showSnackbarEventEmail
-
-    private var _showSnackbarEventPassword = MutableLiveData<Boolean>()
-    val showSnackbarEventPassword: LiveData<Boolean>
-        get() = _showSnackbarEventPassword
+    private var _registerStatus = MutableLiveData<Response<Boolean>>()
+    val registerStatus: LiveData<Response<Boolean>>
+        get() = _registerStatus
 
     fun signUp() {
         val name = name.value.toString()
         val email = email.value.toString()
         val password = password.value.toString()
 
-        if (password.length < 5) {
-            _showSnackbarEventPassword.value = true
-            return
-        }
-
-        auth = Firebase.auth
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                val user = User(name, email)
-                sendVerificationEmail()
-                addUserOnFirestore(auth.uid.toString(), user)
-            }.addOnFailureListener {
-                _showSnackbarEventEmail.value = true
+        job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
+            val response = authRepository.signUp(name, email, password)
+            withContext(Dispatchers.Main) {
+                when (response) {
+                    is Response.Success -> {
+                        val id = response.data?.uid
+                        val user = User(name, email)
+                        if (id != null) {
+                            println("Here")
+                            addUserOnFirestore(id, user)
+                        }
+                    }
+                    is Response.Failure -> {
+                        _registerStatus.postValue(Response.Failure("Error during registration"))
+                    }
+                    else -> {
+                        _registerStatus.postValue(Response.Failure("Error during registration"))
+                    }
+                }
             }
-    }
-
-    private fun sendVerificationEmail() {
-        val user = Firebase.auth.currentUser
-        user!!.sendEmailVerification()
+        }
     }
 
     private fun addUserOnFirestore(id: String, user: User) {
-        val db = Firebase.firestore
-
-        db.collection("users").document(id).set(user)
-            .addOnSuccessListener {
-                _navigateToSignIn.value = true
-            }.addOnFailureListener {
-                _showSnackbarEventEmail.value = true
+        job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
+            val response = authRepository.addUserOnFirestore(id, user)
+            withContext(Dispatchers.Main) {
+                when (response) {
+                    is Response.Success -> {
+                        sendVerificationEmail()
+                    }
+                    is Response.Failure -> {
+                        _registerStatus.postValue(Response.Failure("Error during firestore save"))
+                    }
+                    else -> {
+                        _registerStatus.postValue(Response.Failure("Error during firestore save"))
+                    }
+                }
             }
+        }
     }
 
-    fun doneNavigationToLogin() {
-        _navigateToSignIn.value = false;
-    }
-
-    fun doneShowSnackbarEmail() {
-        _showSnackbarEventEmail.value = false
-    }
-
-    fun doneShowSnackbarPassword() {
-        _showSnackbarEventEmail.value = false
+    private fun sendVerificationEmail() {
+        job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
+            val response = authRepository.sendVerificationEmail()
+            withContext(Dispatchers.Main) {
+                when (response) {
+                    is Response.Success -> {
+                        _registerStatus.postValue(Response.Success(response.data))
+                    }
+                    is Response.Failure -> {
+                        _registerStatus.postValue(Response.Failure("Error during email sendind"))
+                    }
+                    else -> {
+                        _registerStatus.postValue(Response.Failure("Error during email sendind"))
+                    }
+                }
+            }
+        }
     }
 }
