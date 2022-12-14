@@ -8,6 +8,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.User
 import com.raulp.quizgame.repository.AuthRepository
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -31,8 +32,8 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
     private val coroutineContext: CoroutineContext
         get() = SupervisorJob() + Dispatchers.IO
 
-    private var _loginStatus = MutableLiveData<Response<Boolean>>()
-    val loginStatus: LiveData<Response<Boolean>>
+    private var _loginStatus = MutableLiveData<Response<User>>()
+    val loginStatus: LiveData<Response<User>>
         get() = _loginStatus
 
     fun checkIfUserLoggedIn(): Boolean {
@@ -41,7 +42,7 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
     }
 
     fun logOut() {
-        Firebase.auth.signOut();
+        Firebase.auth.signOut()
     }
 
     fun signIn() {
@@ -68,6 +69,7 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
+                        authRepository.addUserOnFirestore(response.data)
                         _loginStatus.postValue(Response.Success(response.data))
                     }
                     is Response.Failure -> {

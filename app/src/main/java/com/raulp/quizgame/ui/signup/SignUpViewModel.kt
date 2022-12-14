@@ -44,11 +44,8 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
-                        val id = response.data?.uid
-                        val user = User(name, email)
-                        if (id != null) {
-                            addUserOnFirestore(id, user)
-                        }
+                        val user = User(response.data.id, response.data.name, response.data.email)
+                        addUserOnFirestore(user)
                     }
                     is Response.Failure -> {
                         _registerStatus.postValue(Response.Failure("Error during registration"))
@@ -58,9 +55,9 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
         }
     }
 
-    private fun addUserOnFirestore(id: String, user: User) {
+    private fun addUserOnFirestore(user: User) {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
-            val response = authRepository.addUserOnFirestore(id, user)
+            val response = authRepository.addUserOnFirestore(user)
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {

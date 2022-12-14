@@ -2,7 +2,6 @@ package com.raulp.quizgame.repository
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -21,21 +20,28 @@ class AuthRepository : IAuthRepository {
     private val rootRef = FirebaseFirestore.getInstance()
     private val usersRef = rootRef.collection("users")
 
-    override suspend fun signInWithGoogle(googleAuthCredential: AuthCredential): Response<Boolean> {
+    override suspend fun signInWithGoogle(googleAuthCredential: AuthCredential): Response<User> {
         val response = auth.signInWithCredential(googleAuthCredential).await()
         return if (response.user != null) {
+            val id = response.user!!.uid
+            val email = response.user!!.email
+            val name = response.user!!.displayName?.trim()?.split("\\s+".toRegex())
             val user =
-                User(response.user!!.displayName.toString(), response.user!!.email.toString())
-            Response.Success(true)
+                User(id, email.toString(), name!![0])
+            Response.Success(user)
         } else {
             Response.Failure("Errore durante il login")
         }
     }
 
-    override suspend fun signIn(email: String, password: String): Response<Boolean> {
+    override suspend fun signIn(email: String, password: String): Response<User> {
         val response = auth.signInWithEmailAndPassword(email, password).await()
         return if (response.user != null) {
-            Response.Success(true)
+            val id = response.user!!.uid
+            val name = response.user!!.displayName
+            val user =
+                User(id, email, name.toString())
+            Response.Success(user)
         } else {
             Response.Failure("Errore durante il login")
         }
@@ -45,19 +51,22 @@ class AuthRepository : IAuthRepository {
         name: String,
         email: String,
         password: String
-    ): Response<FirebaseUser?> {
+    ): Response<User> {
         val response = auth.createUserWithEmailAndPassword(email, password).await()
         return if (response.user != null) {
-            Response.Success(response.user)
+            val id = response.user!!.uid
+            val user = User(id, email, name)
+            Response.Success(user)
         } else {
             Response.Failure("Errore durante il login")
         }
     }
 
-    override suspend fun addUserOnFirestore(id: String, user: User): Response<Boolean> {
-        val doc = usersRef.document(id).get().await()
+    override suspend fun addUserOnFirestore(user: User): Response<Boolean> {
+        val doc = usersRef.document(user.id).get().await()
         return if (!doc.exists()) {
-            usersRef.document(id).set(user)
+            val newUser = User(user.name, user.email)
+            usersRef.document(user.id).set(newUser)
             Response.Success(true)
         } else {
             Response.Failure("Document already exists")
