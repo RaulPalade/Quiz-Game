@@ -21,4 +21,6 @@ interface IAuthRepository {
     suspend fun addUserOnFirestore(id: String, user: User): Response<Boolean>
 
     suspend fun sendVerificationEmail(): Response<Boolean>
+
+    suspend fun resetPassword(email: String): Response<Boolean>
 }

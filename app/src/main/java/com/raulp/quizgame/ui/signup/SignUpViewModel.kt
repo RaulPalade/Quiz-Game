@@ -53,9 +53,6 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
                     is Response.Failure -> {
                         _registerStatus.postValue(Response.Failure("Error during registration"))
                     }
-                    else -> {
-                        _registerStatus.postValue(Response.Failure("Error during registration"))
-                    }
                 }
             }
         }
@@ -72,9 +69,6 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
                     is Response.Failure -> {
                         _registerStatus.postValue(Response.Failure("Error during firestore save"))
                     }
-                    else -> {
-                        _registerStatus.postValue(Response.Failure("Error during firestore save"))
-                    }
                 }
             }
         }
@@ -89,9 +83,6 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
                         _registerStatus.postValue(Response.Success(response.data))
                     }
                     is Response.Failure -> {
-                        _registerStatus.postValue(Response.Failure("Error during email sendind"))
-                    }
-                    else -> {
                         _registerStatus.postValue(Response.Failure("Error during email sendind"))
                     }
                 }

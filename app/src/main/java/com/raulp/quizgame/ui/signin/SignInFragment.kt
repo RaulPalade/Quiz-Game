@@ -61,9 +61,6 @@ class SignInFragment : Fragment() {
                 is Response.Failure -> {
                     errorSnackbar(loginStatus.message)
                 }
-                else -> {
-                    errorSnackbar("Service Unavailable")
-                }
             }
         }
 

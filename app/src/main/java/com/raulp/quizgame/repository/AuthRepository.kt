@@ -73,4 +73,14 @@ class AuthRepository : IAuthRepository {
             Response.Failure("User does not exists")
         }
     }
+
+    override suspend fun resetPassword(email: String): Response<Boolean> {
+        val response = auth.fetchSignInMethodsForEmail(email).await()
+        return if (response.signInMethods != null) {
+            auth.sendPasswordResetEmail(email).await()
+            Response.Success(true)
+        } else {
+            Response.Failure("User does not exists")
+        }
+    }
 }

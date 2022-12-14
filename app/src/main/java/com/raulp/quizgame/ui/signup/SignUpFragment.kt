@@ -43,9 +43,6 @@ class SignUpFragment : Fragment() {
                 is Response.Failure -> {
                     errorSnackbar(registerStatus.message)
                 }
-                else -> {
-                    errorSnackbar("Service Unavailable")
-                }
             }
         }
     }

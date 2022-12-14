@@ -6,16 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.raulp.quizgame.R
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentForgotPasswordBinding
-
+import com.raulp.quizgame.repository.AuthRepository
 
 class ForgotPasswordFragment : Fragment() {
     private lateinit var binding: FragmentForgotPasswordBinding
-    private val viewModel: ForgotPasswordViewModel by viewModels()
+    private val authRepository = AuthRepository()
+    private lateinit var viewModel: ForgotPasswordViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,37 +29,67 @@ class ForgotPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
         binding.lifecycleOwner = this
         binding.forgotPasswordViewModel = viewModel
 
-        viewModel.navigateToSignIn.observe(viewLifecycleOwner) {
-            if (it == true) {
-                val action =
-                    ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToSignInFragment()
-                this.findNavController().navigate(action)
-                viewModel.doneNavigationToLogin()
+        viewModel.resetStatus.observe(viewLifecycleOwner) { resetStatus ->
+            when (resetStatus) {
+                is Response.Success -> {
+                    successSnackbar("Check out your email inbox")
+                    val action =
+                        ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToSignInFragment()
+                    this.findNavController().navigate(action)
+                }
+                is Response.Failure -> {
+                    errorSnackbar("Email does not exist")
+                }
             }
         }
+    }
 
-        viewModel.showSnackbarEventEmail.observe(viewLifecycleOwner) {
-            if (it == true) {
-                Snackbar.make(
-                    requireActivity().findViewById(android.R.id.content),
-                    "Email not valid",
-                    Snackbar.LENGTH_SHORT
-                ).setBackgroundTint(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.orange
-                    )
-                ).setTextColor(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.white
-                    )
-                ).show()
-                viewModel.doneShowSnackbarEmail()
-            }
-        }
+    private fun setupViewModel() {
+        viewModel = ViewModelProvider(
+            this,
+            ForgotPasswordViewModelFactory(authRepository)
+        )[ForgotPasswordViewModel::class.java]
+    }
+
+
+    @Suppress("SameParameterValue")
+    private fun successSnackbar(message: String) {
+        Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            message,
+            Snackbar.LENGTH_LONG
+        ).setBackgroundTint(
+            ContextCompat.getColor(
+                this.requireContext(),
+                R.color.green
+            )
+        ).setTextColor(
+            ContextCompat.getColor(
+                this.requireContext(),
+                R.color.black
+            )
+        ).show()
+    }
+
+    private fun errorSnackbar(message: String) {
+        Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            message,
+            Snackbar.LENGTH_SHORT
+        ).setBackgroundTint(
+            ContextCompat.getColor(
+                this.requireContext(),
+                R.color.orange
+            )
+        ).setTextColor(
+            ContextCompat.getColor(
+                this.requireContext(),
+                R.color.white
+            )
+        ).show()
     }
 }

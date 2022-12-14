@@ -57,7 +57,6 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
                     is Response.Failure -> {
                         _loginStatus.postValue(Response.Failure("Error during login"))
                     }
-                    else -> {}
                 }
             }
         }
@@ -74,7 +73,6 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
                     is Response.Failure -> {
                         _loginStatus.postValue(Response.Failure("Error during login"))
                     }
-                    else -> {}
                 }
             }
         }
