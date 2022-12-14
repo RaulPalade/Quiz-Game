@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="blue">#88D4FF</color>
+    <color name="softBlue">#CAECFF</color>
     <color name="green">#80FF75</color>
     <color name="orange">#FF7F50</color>
 </resources>
