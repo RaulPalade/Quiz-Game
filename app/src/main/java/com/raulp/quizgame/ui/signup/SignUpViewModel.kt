@@ -47,7 +47,6 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
                         val id = response.data?.uid
                         val user = User(name, email)
                         if (id != null) {
-                            println("Here")
                             addUserOnFirestore(id, user)
                         }
                     }
