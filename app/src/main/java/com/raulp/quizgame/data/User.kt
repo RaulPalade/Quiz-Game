@@ -17,7 +17,7 @@ data class User(
     val name: String,
     val email: String,
     @ServerTimestamp
-    val timestamp: Date? = null
+    val memberSince: Date? = null
 ) : Serializable {
     constructor(name: String, email: String) : this(
         id = "",
