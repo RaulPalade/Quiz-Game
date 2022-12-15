@@ -9,29 +9,45 @@
         android:id="@+id/home_root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/softBlue"
-        android:paddingLeft="40dp"
-        android:paddingTop="0dp"
-        android:paddingRight="40dp"
-        android:paddingBottom="40dp">
+        android:background="@color/softBlue">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/top_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/menu_header"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@id/game_cards"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
+                android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/menuicon" />
+                android:src="@drawable/menuicon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/girl_crop"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/white"
+                app:strokeWidth="2dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/game_cards"
@@ -69,7 +85,5 @@
                 android:contentDescription="Game card"
                 android:src="@drawable/game_card_3" />
         </LinearLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
