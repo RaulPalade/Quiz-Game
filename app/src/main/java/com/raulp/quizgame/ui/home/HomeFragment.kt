@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.raulp.quizgame.data.Topic.*
 import com.raulp.quizgame.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -23,17 +24,19 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.card1.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(1)
+            val action = HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(AMERICAS)
             this.findNavController().navigate(action)
         }
 
         binding.card2.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(2)
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(EUROPE_AFRICA)
             this.findNavController().navigate(action)
         }
 
         binding.card3.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(3)
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(ASIA_OCEANIA)
             this.findNavController().navigate(action)
         }
     }

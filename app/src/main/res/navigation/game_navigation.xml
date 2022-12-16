@@ -22,7 +22,6 @@
         tools:layout="@layout/fragment_game">
         <argument
             android:name="topic"
-            android:defaultValue="1"
-            app:argType="integer" />
+            app:argType="com.raulp.quizgame.data.Topic" />
     </fragment>
 </navigation>

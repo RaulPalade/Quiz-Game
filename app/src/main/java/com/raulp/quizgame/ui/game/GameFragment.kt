@@ -30,7 +30,8 @@ class GameFragment : Fragment() {
         binding.gameViewModel = viewModel
         val args: GameFragmentArgs by navArgs()
         val topic = args.topic
-        println(topic)
+
+        viewModel.getQuestions(topic, 10);
 
         binding.text.text = topic.toString()
     }

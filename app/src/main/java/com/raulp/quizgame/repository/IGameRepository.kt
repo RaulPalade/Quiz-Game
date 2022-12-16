@@ -1,5 +1,9 @@
 package com.raulp.quizgame.repository
 
+import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Question
+import com.raulp.quizgame.data.Topic
+
 /**
  * @author Raul Palade
  * @date 15/12/2022
@@ -7,4 +11,5 @@ package com.raulp.quizgame.repository
  */
 
 interface IGameRepository {
+    suspend fun getQuestions(topic: Topic, limit: Int): Response<List<Question>>
 }
