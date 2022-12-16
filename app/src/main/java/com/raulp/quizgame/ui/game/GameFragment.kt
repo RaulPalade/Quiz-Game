@@ -32,8 +32,6 @@ class GameFragment : Fragment() {
         val topic = args.topic
 
         viewModel.getQuestions(topic, 10);
-
-        binding.text.text = topic.toString()
     }
 
     private fun setupViewModel() {
