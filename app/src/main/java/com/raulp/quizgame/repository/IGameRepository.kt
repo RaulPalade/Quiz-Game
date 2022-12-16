@@ -11,5 +11,5 @@ import com.raulp.quizgame.data.Topic
  */
 
 interface IGameRepository {
-    suspend fun getQuestions(topic: Topic, limit: Int): Response<List<Question>>
+    suspend fun getQuestions(topic: Topic): Response<List<Question>>
 }

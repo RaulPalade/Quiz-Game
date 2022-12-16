@@ -19,7 +19,7 @@ class GameRepository : IGameRepository {
     private val europeAfricaRef = rootRef.collection("questions_europe_africa")
     private val asiaOceaniaRef = rootRef.collection("questions_asia_oceania")
 
-    override suspend fun getQuestions(topic: Topic, limit: Int): Response<List<Question>> {
+    override suspend fun getQuestions(topic: Topic): Response<List<Question>> {
         val response = when (topic) {
             AMERICAS -> {
                 americasRef.get().await()

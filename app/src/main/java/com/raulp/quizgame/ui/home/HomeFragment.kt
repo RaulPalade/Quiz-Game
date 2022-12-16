@@ -24,19 +24,20 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.card1.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(AMERICAS)
-            this.findNavController().navigate(action)
-        }
-
-        binding.card2.setOnClickListener {
             val action =
                 HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(EUROPE_AFRICA)
             this.findNavController().navigate(action)
         }
 
-        binding.card3.setOnClickListener {
+        binding.card2.setOnClickListener {
             val action =
                 HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(ASIA_OCEANIA)
+            this.findNavController().navigate(action)
+        }
+
+        binding.card3.setOnClickListener {
+            val action =
+                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(AMERICAS)
             this.findNavController().navigate(action)
         }
     }

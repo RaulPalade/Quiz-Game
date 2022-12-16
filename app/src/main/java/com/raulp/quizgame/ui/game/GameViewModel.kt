@@ -25,12 +25,13 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
     val questions: LiveData<Response<List<Question>>>
         get() = _questions
 
-    fun getQuestions(topic: Topic, limit: Int) {
+    fun getQuestions(topic: Topic) {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
-            val response = gameRepository.getQuestions(topic, limit)
+            val response = gameRepository.getQuestions(topic)
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
+                        response.data.shuffled()
                         _questions.postValue(Response.Success(response.data))
                     }
                     is Response.Failure -> {

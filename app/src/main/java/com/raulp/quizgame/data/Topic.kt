@@ -7,7 +7,7 @@ package com.raulp.quizgame.data
  */
 
 enum class Topic {
-    AMERICAS,
     EUROPE_AFRICA,
-    ASIA_OCEANIA
+    ASIA_OCEANIA,
+    AMERICAS
 }
