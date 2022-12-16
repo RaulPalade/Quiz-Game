@@ -37,10 +37,16 @@ class GameRepository : IGameRepository {
         } else {
             val questions = ArrayList<Question>()
             response.documents.forEach { docSnap ->
-                val question = docSnap.toObject(Question::class.java)
-                if (question != null) {
-                    questions.add(question)
-                }
+                val question = docSnap.data?.get("question")
+                val correct = docSnap.data?.get("correct")
+                val wrongAnswers = docSnap.data?.get("wrongAnswers")
+
+                val q = Question(
+                    question as String,
+                    correct as String,
+                    wrongAnswers as ArrayList<*>
+                )
+                questions.add(q)
             }
             Response.Success(questions)
         }
