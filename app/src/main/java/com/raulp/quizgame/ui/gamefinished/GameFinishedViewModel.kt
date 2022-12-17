@@ -23,4 +23,9 @@ class GameFinishedViewModel(private val gameRepository: GameRepository) : ViewMo
     private var _rankings = MutableLiveData<Response<List<User>>>()
     val rankings: LiveData<Response<List<User>>>
         get() = _rankings
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
+    }
 }

@@ -79,4 +79,9 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
             }
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
+    }
 }

@@ -40,4 +40,9 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
             }
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
+    }
 }

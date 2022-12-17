@@ -46,6 +46,10 @@ class ForgotPasswordViewModel(private val authRepository: AuthRepository) : View
                 }
             }
         }
+    }
 
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
     }
 }
