@@ -2,26 +2,31 @@ package com.raulp.quizgame.ui.game
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Game
 import com.raulp.quizgame.data.Question
 import com.raulp.quizgame.databinding.FragmentGameBinding
 import com.raulp.quizgame.repository.GameRepository
+import java.util.concurrent.TimeUnit
+
 
 class GameFragment : Fragment() {
     private lateinit var binding: FragmentGameBinding
     private val gameRepository = GameRepository()
     private lateinit var viewModel: GameViewModel
     private var index = 0
-    private val game = Game()
+    private var game = Game(20)
     private lateinit var questions: List<Question>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +49,7 @@ class GameFragment : Fragment() {
         viewModel.questions.observe(viewLifecycleOwner) { questionResponse ->
             when (questionResponse) {
                 is Response.Success -> {
-                    questions = questionResponse.data
-                    startGame()
+                    startGame(questionResponse.data)
                 }
                 is Response.Failure -> {
                     println("No questions were found")
@@ -53,54 +57,77 @@ class GameFragment : Fragment() {
             }
         }
 
-        val buttons =
+        object : CountDownTimer(6000L, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                val format = String.format(
+                    "%02d:%02d",
+                    (seconds % 3600) / 60, (seconds % 60)
+                )
+                binding.timer.text = format
+            }
+
+            override fun onFinish() {
+                endGame()
+            }
+        }.start()
+
+        val optionButtons =
             listOf<Button>(binding.option1, binding.option2, binding.option3, binding.option4)
-        buttons.forEach { btn ->
-            run {
-                btn.setOnClickListener {
-                    checkAnswer(btn.text.substring(3))
+
+        optionButtons.forEach { btn ->
+            btn.setOnClickListener {
+                val answer = btn.text.substring(3)
+                checkAnswerAndAssignPoints(answer)
+                if (index < game.totalQuestions) {
                     index++
-                    if (index <= 20) {
-                        continueGame()
-                    } else {
-                        endGame()
-                    }
+                    setNextQuestion()
+                } else {
+                    endGame()
                 }
             }
         }
     }
 
-    private fun startGame() {
-        continueGame()
+    private fun startGame(data: List<Question>) {
+        questions = data
+        setNextQuestion()
     }
-
 
     @SuppressLint("SetTextI18n")
-    private fun continueGame() {
+    private fun setNextQuestion() {
         binding.totalQuestions.text = "${index}/20"
         binding.points.text = "${game.points} Points"
-
         binding.question.text = questions[index].question
-        binding.option1.text = "1) ${questions[index].correct}"
-        binding.option2.text = "2) ${questions[index].wrongAnswers[1]}"
-        binding.option3.text = "3) ${questions[index].wrongAnswers[2]}"
-        binding.option4.text = "4) ${questions[index].wrongAnswers[3]}"
+
+        val answers = ArrayList<String>()
+        answers.add(questions[index].correct)
+        questions[index].wrongAnswers.shuffle()
+        answers.add(questions[index].wrongAnswers[0] as String)
+        answers.add(questions[index].wrongAnswers[1] as String)
+        answers.add(questions[index].wrongAnswers[2] as String)
+        answers.shuffle()
+
+        val optionButtons =
+            listOf<Button>(binding.option1, binding.option2, binding.option3, binding.option4)
+
+        optionButtons.forEachIndexed { index, btn ->
+            btn.text = "${(index + 65).toChar()}) ${answers[index]}"
+        }
     }
 
-    private fun checkAnswer(answer: String) {
-        println(answer)
-        println(questions[index].correct)
+    private fun checkAnswerAndAssignPoints(answer: String) {
         if (answer == questions[index].correct) {
             game.points += 10
             game.correct++
-            println(true)
         } else {
             game.wrong++
         }
     }
 
     private fun endGame() {
-        println(game.toString())
+        val action = GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game)
+        this.findNavController().navigate(action)
     }
 
     private fun setupViewModel() {

@@ -8,4 +8,9 @@ import java.io.Serializable
  * @project QuizGame
  */
 
-data class Game(var correct: Int = 0, var wrong: Int = 0, var points: Int = 0) : Serializable
+data class Game(
+    var totalQuestions: Int,
+    var correct: Int = 0,
+    var wrong: Int = 0,
+    var points: Int = 0
+) : Serializable

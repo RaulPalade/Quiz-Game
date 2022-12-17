@@ -23,5 +23,18 @@
         <argument
             android:name="topic"
             app:argType="com.raulp.quizgame.data.Topic" />
+        <action
+            android:id="@+id/action_gameStartedFragment_to_gameFinishedFragment"
+            app:destination="@id/gameFinishedFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameFinishedFragment"
+        android:name="com.raulp.quizgame.ui.gamefinished.GameFinishedFragment"
+        android:label="fragment_game_finished"
+        tools:layout="@layout/fragment_game_finished">
+        <argument
+            android:name="game"
+            app:argType="com.raulp.quizgame.data.Game" />
     </fragment>
 </navigation>

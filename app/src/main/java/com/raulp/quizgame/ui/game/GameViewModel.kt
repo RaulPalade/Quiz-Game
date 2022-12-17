@@ -31,8 +31,7 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
-                        response.data.shuffled()
-                        _questions.postValue(Response.Success(response.data))
+                        _questions.postValue(Response.Success(response.data.shuffled()))
                     }
                     is Response.Failure -> {
                         _questions.postValue(Response.Failure("No questions were found"))
