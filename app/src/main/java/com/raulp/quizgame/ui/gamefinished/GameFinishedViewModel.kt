@@ -14,7 +14,7 @@ class GameFinishedViewModel(private val gameRepository: GameRepository) : ViewMo
     private var job: Job? = null
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         viewModelScope.launch(Dispatchers.Main) {
-            _rankings.postValue(Response.Failure("Exception handled: ${throwable.localizedMessage}"))
+            _generalRankings.postValue(Response.Failure("Exception handled: ${throwable.localizedMessage}"))
         }
     }
 
@@ -25,9 +25,9 @@ class GameFinishedViewModel(private val gameRepository: GameRepository) : ViewMo
     private val coroutineContext: CoroutineContext
         get() = SupervisorJob() + Dispatchers.IO
 
-    private var _rankings = MutableLiveData<Response<List<User>>>()
-    val rankings: LiveData<Response<List<User>>>
-        get() = _rankings
+    private var _generalRankings = MutableLiveData<Response<List<User>>>()
+    val generalRankings: LiveData<Response<List<User>>>
+        get() = _generalRankings
 
     fun getUsersRanking() {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
@@ -35,11 +35,10 @@ class GameFinishedViewModel(private val gameRepository: GameRepository) : ViewMo
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
-                        println(response.data)
-                        _usersRanking.postValue(Response.Success(response.data))
+                        _generalRankings.postValue(Response.Success(response.data))
                     }
                     is Response.Failure -> {
-                        _usersRanking.postValue(Response.Failure("No users were found"))
+                        _generalRankings.postValue(Response.Failure("No users were found"))
                     }
                 }
             }

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Game
 import com.raulp.quizgame.databinding.FragmentGameFinishedBinding
 import com.raulp.quizgame.repository.GameRepository
@@ -32,9 +34,25 @@ class GameFinishedFragment : Fragment() {
         val args: GameFinishedFragmentArgs by navArgs()
         val game = args.game
 
+        val adapter = RankingListAdapter()
+        binding.recyclerView.adapter = adapter
+
         setGameStats(game)
 
         viewModel.getUsersRanking()
+        viewModel.generalRankings.observe(viewLifecycleOwner) { userRankings ->
+            println("ARRIVO QUI")
+            when (userRankings) {
+                is Response.Success -> {
+                    println(userRankings.data)
+                    userRankings.let { adapter.submitList(it.data) }
+                }
+                is Response.Failure -> {
+                    println("No questions were found")
+                }
+            }
+        }
+        binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
     }
 
     private fun setGameStats(game: Game) {
