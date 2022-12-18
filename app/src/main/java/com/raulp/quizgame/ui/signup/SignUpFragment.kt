@@ -41,6 +41,7 @@ class SignUpFragment : Fragment() {
                     goToHome()
                 }
                 is Response.Failure -> {
+                    println(registerStatus.message)
                     errorSnackbar(registerStatus.message)
                 }
             }

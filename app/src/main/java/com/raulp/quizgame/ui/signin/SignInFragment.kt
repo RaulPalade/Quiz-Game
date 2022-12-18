@@ -47,7 +47,7 @@ class SignInFragment : Fragment() {
         binding.signInViewModel = viewModel
         initGoogleSignInClient()
 
-        //viewModel.logOut()
+        viewModel.logOut()
 
         if (viewModel.checkIfUserLoggedIn()) {
             goToHome()
@@ -59,6 +59,7 @@ class SignInFragment : Fragment() {
                     goToHome()
                 }
                 is Response.Failure -> {
+                    println(loginStatus.message)
                     errorSnackbar(loginStatus.message)
                 }
             }

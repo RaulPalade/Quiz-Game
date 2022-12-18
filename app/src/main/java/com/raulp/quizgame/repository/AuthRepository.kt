@@ -55,7 +55,7 @@ class AuthRepository : IAuthRepository {
         val response = auth.createUserWithEmailAndPassword(email, password).await()
         return if (response.user != null) {
             val id = response.user!!.uid
-            val user = User(id, email, name)
+            val user = User(id = id, email = email, name = name)
             Response.Success(user)
         } else {
             Response.Failure("Errore durante il login")

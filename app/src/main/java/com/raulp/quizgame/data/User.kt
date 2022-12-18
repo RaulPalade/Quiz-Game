@@ -35,7 +35,7 @@ data class User(
     )
 
     constructor(id: String, name: String, email: String) : this(
-        id = "",
+        id = id,
         name = name,
         email = email,
         score = 0
