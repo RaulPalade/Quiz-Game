@@ -33,6 +33,8 @@ class GameFinishedFragment : Fragment() {
         val game = args.game
 
         setGameStats(game)
+
+        viewModel.getUsersRanking()
     }
 
     private fun setGameStats(game: Game) {

@@ -6,6 +6,7 @@ import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Question
 import com.raulp.quizgame.data.Topic
 import com.raulp.quizgame.data.Topic.*
+import com.raulp.quizgame.data.User
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -66,4 +67,36 @@ class GameRepository : IGameRepository {
             Response.Failure("Impossible to update document")
         }
     }
+
+    override suspend fun getUserPosition(): Response<Int> {
+        return try {
+            val response = auth.currentUser?.let { userRef.document(it.uid).get().await() }
+            val score = Integer.parseInt(response?.data?.get("score").toString())
+            Response.Success(score)
+        } catch (e: Exception) {
+            Response.Failure("Impossible to update document")
+        }
+    }
+
+    override suspend fun getUsersRanking(): Response<List<User>> {
+        try {
+            val response = userRef.get().await()
+            val users = ArrayList<User>()
+
+            response.documents.forEach { docSnap ->
+                val name = docSnap.data?.get("name").toString()
+                val score = Integer.parseInt(docSnap.data?.get("score").toString())
+
+                val user = User(name = name, score = score)
+                users.add(user)
+            }
+
+            users.sortByDescending { user -> user.score }
+            return Response.Success(users)
+        } catch (e: Exception) {
+            return Response.Failure("Impossible to get users ranking")
+        }
+
+    }
+
 }

@@ -27,6 +27,13 @@ data class User(
         score = 0
     )
 
+    constructor(name: String, score: Int) : this(
+        id = "",
+        name = name,
+        email = "",
+        score = score
+    )
+
     constructor(id: String, name: String, email: String) : this(
         id = "",
         name = name,
