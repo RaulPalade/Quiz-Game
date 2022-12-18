@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
+import com.raulp.quizgame.data.Game
 import com.raulp.quizgame.databinding.FragmentGameFinishedBinding
 import com.raulp.quizgame.repository.GameRepository
 
@@ -30,7 +31,14 @@ class GameFinishedFragment : Fragment() {
         binding.gameFinishedViewModel = viewModel
         val args: GameFinishedFragmentArgs by navArgs()
         val game = args.game
-        binding.text.text = game.toString()
+
+        setGameStats(game)
+    }
+
+    private fun setGameStats(game: Game) {
+        binding.totalAnswered.text = game.totalQuestions.toString()
+        binding.totalCorrect.text = game.correct.toString()
+        binding.totalWrong.text = game.wrong.toString()
     }
 
     private fun setupViewModel() {

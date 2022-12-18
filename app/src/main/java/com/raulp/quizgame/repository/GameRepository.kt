@@ -1,5 +1,6 @@
 package com.raulp.quizgame.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Question
@@ -14,7 +15,9 @@ import kotlinx.coroutines.tasks.await
  */
 
 class GameRepository : IGameRepository {
+    private val auth = FirebaseAuth.getInstance()
     private val rootRef = FirebaseFirestore.getInstance()
+    private val userRef = rootRef.collection("users")
     private val americasRef = rootRef.collection("questions_americas")
     private val europeAfricaRef = rootRef.collection("questions_europe_africa")
     private val asiaOceaniaRef = rootRef.collection("questions_asia_oceania")
@@ -49,6 +52,18 @@ class GameRepository : IGameRepository {
                 questions.add(q)
             }
             Response.Success(questions)
+        }
+    }
+
+    override suspend fun updateUserScore(points: Int): Response<Boolean> {
+        return try {
+            val response = auth.currentUser?.let { userRef.document(it.uid).get().await() }
+            val oldScore = Integer.parseInt(response?.data?.get("score").toString())
+            val newScore = oldScore + points
+            auth.currentUser?.let { userRef.document(it.uid).update("score", newScore).await() }
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure("Impossible to update document")
         }
     }
 }

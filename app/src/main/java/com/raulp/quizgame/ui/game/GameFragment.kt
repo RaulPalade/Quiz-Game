@@ -24,7 +24,7 @@ class GameFragment : Fragment() {
     private val gameRepository = GameRepository()
     private lateinit var viewModel: GameViewModel
     private var index = 0
-    private var game = Game(20)
+    private var game = Game(5)
     private lateinit var questions: List<Question>
 
 
@@ -57,7 +57,7 @@ class GameFragment : Fragment() {
             }
         }
 
-        object : CountDownTimer(6000L, 1000) {
+        object : CountDownTimer(1200000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                 val format = String.format(
@@ -79,7 +79,7 @@ class GameFragment : Fragment() {
             btn.setOnClickListener {
                 val answer = btn.text.substring(3)
                 checkAnswerAndAssignPoints(answer)
-                if (index < game.totalQuestions) {
+                if (index < game.totalQuestions - 1) {
                     index++
                     setNextQuestion()
                 } else {
@@ -127,7 +127,17 @@ class GameFragment : Fragment() {
 
     private fun endGame() {
         val action = GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game)
-        this.findNavController().navigate(action)
+        viewModel.updateUserScore(game.points)
+        viewModel.scoreUpdated.observe(viewLifecycleOwner) { scoreUpdated ->
+            when (scoreUpdated) {
+                is Response.Success -> {
+                    this.findNavController().navigate(action)
+                }
+                is Response.Failure -> {
+                    println("Impossible to update user score")
+                }
+            }
+        }
     }
 
     private fun setupViewModel() {

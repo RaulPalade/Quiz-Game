@@ -25,6 +25,10 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
     val questions: LiveData<Response<List<Question>>>
         get() = _questions
 
+    private var _scoreUpdated = MutableLiveData<Response<Boolean>>()
+    val scoreUpdated: LiveData<Response<Boolean>>
+        get() = _scoreUpdated
+
     fun getQuestions(topic: Topic) {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
             val response = gameRepository.getQuestions(topic)
@@ -44,5 +48,21 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         job?.cancel()
+    }
+
+    fun updateUserScore(points: Int) {
+        job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
+            val response = gameRepository.updateUserScore(points)
+            withContext(Dispatchers.Main) {
+                when (response) {
+                    is Response.Success -> {
+                        _scoreUpdated.postValue(Response.Success(response.data))
+                    }
+                    is Response.Failure -> {
+                        _scoreUpdated.postValue(Response.Failure("Impossible to update score"))
+                    }
+                }
+            }
+        }
     }
 }

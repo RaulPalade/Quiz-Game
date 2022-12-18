@@ -12,4 +12,6 @@ import com.raulp.quizgame.data.Topic
 
 interface IGameRepository {
     suspend fun getQuestions(topic: Topic): Response<List<Question>>
+
+    suspend fun updateUserScore(points: Int): Response<Boolean>
 }

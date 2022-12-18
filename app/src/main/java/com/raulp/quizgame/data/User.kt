@@ -16,12 +16,21 @@ data class User(
     val id: String,
     val name: String,
     val email: String,
+    val score: Int = 0,
     @ServerTimestamp
     val memberSince: Date? = null
 ) : Serializable {
     constructor(name: String, email: String) : this(
         id = "",
         name = name,
-        email = email
+        email = email,
+        score = 0
+    )
+
+    constructor(id: String, name: String, email: String) : this(
+        id = "",
+        name = name,
+        email = email,
+        score = 0
     )
 }
