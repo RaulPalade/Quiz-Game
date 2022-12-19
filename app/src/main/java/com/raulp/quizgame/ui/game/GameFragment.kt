@@ -26,7 +26,7 @@ class GameFragment : Fragment() {
     private var index = 0
     private var game = Game(5)
     private lateinit var questions: List<Question>
-
+    private lateinit var countDownTimer: CountDownTimer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +57,7 @@ class GameFragment : Fragment() {
             }
         }
 
-        object : CountDownTimer(6000L, 1000) {
+        countDownTimer = object : CountDownTimer(6000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                 val format = String.format(
@@ -127,11 +127,13 @@ class GameFragment : Fragment() {
     }
 
     private fun endGame() {
+        countDownTimer.cancel()
         val action = GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game)
         viewModel.updateUserScore(game.points)
         viewModel.scoreUpdated.observe(viewLifecycleOwner) { scoreUpdated ->
             when (scoreUpdated) {
                 is Response.Success -> {
+
                     this.findNavController().navigate(action)
                 }
                 is Response.Failure -> {

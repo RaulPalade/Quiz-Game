@@ -36,5 +36,13 @@
         <argument
             android:name="game"
             app:argType="com.raulp.quizgame.data.Game" />
+        <action
+            android:id="@+id/action_gameFinishedFragment_to_rankingFragment"
+            app:destination="@id/rankingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/rankingFragment"
+        android:name="com.raulp.quizgame.ui.rankings.RankingFragment"
+        android:label="RankingFragment"
+        tools:layout="@layout/fragment_rankings" />
 </navigation>

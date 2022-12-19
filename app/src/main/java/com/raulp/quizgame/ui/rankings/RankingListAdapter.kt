@@ -1,4 +1,4 @@
-package com.raulp.quizgame.ui.gamefinished
+package com.raulp.quizgame.ui.rankings
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -37,12 +37,11 @@ class RankingListAdapter : ListAdapter<User, RankingListAdapter.RankingViewHolde
         }
 
         @SuppressLint("SetTextI18n")
-        fun bind(user: User) {
+        fun bind(user: User, position: Int) {
             binding.apply {
-                playerPosition.text = "${index}."
+                playerPosition.text = "$position."
                 playerName.text = user.name
                 playerPoints.text = "${user.score} Points"
-                index++
             }
         }
     }
@@ -59,6 +58,6 @@ class RankingListAdapter : ListAdapter<User, RankingListAdapter.RankingViewHolde
 
     override fun onBindViewHolder(holder: RankingViewHolder, position: Int) {
         val currentUser = getItem(position)
-        holder.bind(currentUser)
+        holder.bind(currentUser, position + 1)
     }
 }

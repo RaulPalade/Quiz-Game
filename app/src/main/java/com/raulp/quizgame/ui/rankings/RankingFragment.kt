@@ -1,4 +1,4 @@
-package com.raulp.quizgame.ui.gamefinished
+package com.raulp.quizgame.ui.rankings
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,25 +7,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raulp.quizgame.Response
-import com.raulp.quizgame.data.Game
-import com.raulp.quizgame.databinding.FragmentGameFinishedBinding
+import com.raulp.quizgame.databinding.FragmentRankingsBinding
 import com.raulp.quizgame.repository.GameRepository
-import com.raulp.quizgame.ui.rankings.RankingListAdapter
 
-class GameFinishedFragment : Fragment() {
-    private lateinit var binding: FragmentGameFinishedBinding
+/**
+ * @author Raul Palade
+ * @date 19/12/2022
+ * @project QuizGame
+ */
+
+class RankingFragment : Fragment() {
+    private lateinit var binding: FragmentRankingsBinding
     private val gameRepository = GameRepository()
-    private lateinit var viewModel: GameFinishedViewModel
+    private lateinit var viewModel: RankingViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentGameFinishedBinding.inflate(inflater, container, false)
+        binding = FragmentRankingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,14 +37,9 @@ class GameFinishedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         binding.lifecycleOwner = this
-        binding.gameFinishedViewModel = viewModel
-        val args: GameFinishedFragmentArgs by navArgs()
-        val game = args.game
-
+        binding.rankingViewModel = viewModel
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
-
-        setGameStats(game)
 
         viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
             binding.playerRanking.text = (userRanking + 1).toString()
@@ -60,24 +58,12 @@ class GameFinishedFragment : Fragment() {
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
 
-        binding.recyclerTitle.setOnClickListener {
-            val action =
-                GameFinishedFragmentDirections.actionGameFinishedFragmentToRankingFragment()
-            this.findNavController().navigate(action)
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun setGameStats(game: Game) {
-        binding.numberOfQuestions.text = game.totalQuestions.toString()
-        binding.totalCorrect.text = game.correct.toString()
-        binding.totalWrong.text = (game.wrong + game.notAnswered).toString()
     }
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameFinishedViewModelFactory(gameRepository)
-        )[GameFinishedViewModel::class.java]
+            RankingViewModelFactory(gameRepository)
+        )[RankingViewModel::class.java]
     }
 }
