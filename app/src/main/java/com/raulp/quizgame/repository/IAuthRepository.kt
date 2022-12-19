@@ -1,5 +1,6 @@
 package com.raulp.quizgame.repository
 
+import android.net.Uri
 import com.google.firebase.auth.AuthCredential
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.User
@@ -15,9 +16,9 @@ interface IAuthRepository {
 
     suspend fun signIn(email: String, password: String): Response<User>
 
-    suspend fun signUp(name: String, email: String, password: String): Response<User>
+    suspend fun signUp(email: String, password: String): Response<String>
 
-    suspend fun addUserOnFirestore(user: User): Response<Boolean>
+    suspend fun addUserOnFirestore(user: User, profileImage: Uri): Response<Boolean>
 
     suspend fun sendVerificationEmail(): Response<Boolean>
 

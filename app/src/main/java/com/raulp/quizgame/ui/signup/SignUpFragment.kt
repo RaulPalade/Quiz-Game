@@ -1,10 +1,15 @@
 package com.raulp.quizgame.ui.signup
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -14,12 +19,15 @@ import com.raulp.quizgame.R
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentSignUpBinding
 import com.raulp.quizgame.repository.AuthRepository
+import java.io.ByteArrayOutputStream
 
 
 class SignUpFragment : Fragment() {
     private lateinit var binding: FragmentSignUpBinding
     private val authRepository = AuthRepository()
     private lateinit var viewModel: SignUpViewModel
+    private var imageUri: Uri? = null
+    private lateinit var encodedImage: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +43,10 @@ class SignUpFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.signUpViewModel = viewModel
 
+        binding.btnAddPhoto.setOnClickListener {
+            openGallery()
+        }
+
         viewModel.registerStatus.observe(viewLifecycleOwner) { registerStatus ->
             when (registerStatus) {
                 is Response.Success -> {
@@ -46,6 +58,29 @@ class SignUpFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun openGallery() {
+        val intent = Intent()
+        intent.type = "image/"
+        intent.action = Intent.ACTION_PICK
+        resultLauncher.launch(intent)
+    }
+
+    private var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data: Intent? = result.data
+                imageUri = data?.data
+                imageUri?.let { viewModel.setProfileImage(it) }
+            }
+        }
+
+    private fun encodeImage(bitmap: Bitmap): String {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val b: ByteArray = outputStream.toByteArray()
+        return Base64.encodeToString(b, Base64.DEFAULT)
     }
 
     private fun setupViewModel() {

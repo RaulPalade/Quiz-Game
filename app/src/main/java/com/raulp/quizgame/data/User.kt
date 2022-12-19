@@ -37,14 +37,6 @@ data class User(
         profileImage = ""
     )
 
-    constructor(id: String, name: String, email: String) : this(
-        id = id,
-        name = name,
-        email = email,
-        score = 0,
-        profileImage = ""
-    )
-
     constructor(name: String, email: String, score: Int, profileImage: String) : this(
         id = "",
         name = name,

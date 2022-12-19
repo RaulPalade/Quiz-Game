@@ -69,7 +69,7 @@ class SignInViewModel(private val authRepository: AuthRepository) : ViewModel() 
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
-                        authRepository.addUserOnFirestore(response.data)
+                        //authRepository.addUserOnFirestore(response.data)
                         _loginStatus.postValue(Response.Success(response.data))
                     }
                     is Response.Failure -> {

@@ -47,7 +47,7 @@ class SignInFragment : Fragment() {
         binding.signInViewModel = viewModel
         initGoogleSignInClient()
 
-        //viewModel.logOut()
+        viewModel.logOut()
 
         if (viewModel.checkIfUserLoggedIn()) {
             goToHome()

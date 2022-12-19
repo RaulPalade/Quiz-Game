@@ -1,5 +1,6 @@
 package com.raulp.quizgame.ui.signup
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +21,7 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
     var name = MutableLiveData<String>()
     var email = MutableLiveData<String>()
     var password = MutableLiveData<String>()
+    private var profileImage = MutableLiveData<Uri>()
 
     private var job: Job? = null
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -40,11 +42,17 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
         val password = password.value.toString()
 
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
-            val response = authRepository.signUp(name, email, password)
+            val response = authRepository.signUp(email, password)
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
-                        val user = User(response.data.id, response.data.name, response.data.email)
+                        val user =
+                            User(
+                                id = response.data,
+                                name = name,
+                                email = email,
+                                profileImage = profileImage.value.toString()
+                            )
                         addUserOnFirestore(user)
                     }
                     is Response.Failure -> {
@@ -57,7 +65,7 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
 
     private fun addUserOnFirestore(user: User) {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
-            val response = authRepository.addUserOnFirestore(user)
+            val response = profileImage.value?.let { authRepository.addUserOnFirestore(user, it) }
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
@@ -65,6 +73,9 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
                     }
                     is Response.Failure -> {
                         _registerStatus.postValue(Response.Failure("Error during firestore save"))
+                    }
+                    else -> {
+                        _registerStatus.postValue(Response.Failure("Error during uploading photo"))
                     }
                 }
             }
@@ -85,6 +96,10 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
                 }
             }
         }
+    }
+
+    fun setProfileImage(image: Uri) {
+        profileImage.value = image
     }
 
     override fun onCleared() {
