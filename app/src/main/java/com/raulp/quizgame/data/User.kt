@@ -17,6 +17,7 @@ data class User(
     val name: String,
     val email: String,
     val score: Int = 0,
+    val profileImage: String = "",
     @ServerTimestamp
     val memberSince: Date? = null
 ) : Serializable {
@@ -24,20 +25,31 @@ data class User(
         id = "",
         name = name,
         email = email,
-        score = 0
+        score = 0,
+        profileImage = ""
     )
 
     constructor(name: String, score: Int) : this(
         id = "",
         name = name,
         email = "",
-        score = score
+        score = score,
+        profileImage = ""
     )
 
     constructor(id: String, name: String, email: String) : this(
         id = id,
         name = name,
         email = email,
-        score = 0
+        score = 0,
+        profileImage = ""
+    )
+
+    constructor(name: String, email: String, score: Int, profileImage: String) : this(
+        id = "",
+        name = name,
+        email = email,
+        score = score,
+        profileImage = profileImage
     )
 }

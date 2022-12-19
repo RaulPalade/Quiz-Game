@@ -45,4 +45,9 @@
         android:name="com.raulp.quizgame.ui.rankings.RankingFragment"
         android:label="RankingFragment"
         tools:layout="@layout/fragment_rankings" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.raulp.quizgame.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

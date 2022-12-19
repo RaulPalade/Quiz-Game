@@ -68,6 +68,29 @@ class GameRepository : IGameRepository {
         }
     }
 
+    override suspend fun getUserProfile(): Response<User> {
+        try {
+            val userId = auth.currentUser?.uid
+            val docSnap = userId?.let { userRef.document(it).get().await() }
+
+            val name = docSnap?.data?.get("name").toString()
+            val email = docSnap?.data?.get("email").toString()
+            val score = Integer.parseInt(docSnap?.data?.get("score").toString())
+            val profileImage = docSnap?.data?.get("profileImage").toString()
+
+            val user = User(
+                name = name,
+                email = email,
+                score = score,
+                profileImage = profileImage
+            )
+
+            return Response.Success(user)
+        } catch (e: Exception) {
+            return Response.Failure("User not found")
+        }
+    }
+
     override suspend fun getUsersRanking(): Response<List<User>> {
         try {
             val response = userRef.get().await()
