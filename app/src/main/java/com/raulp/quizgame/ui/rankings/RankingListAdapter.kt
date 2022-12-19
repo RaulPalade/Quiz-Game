@@ -31,11 +31,6 @@ class RankingListAdapter : ListAdapter<User, RankingListAdapter.RankingViewHolde
     class RankingViewHolder(private var binding: RankingListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        companion object {
-            @JvmStatic
-            private var index = 1
-        }
-
         @SuppressLint("SetTextI18n")
         fun bind(user: User, position: Int) {
             binding.apply {
