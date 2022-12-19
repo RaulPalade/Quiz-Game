@@ -16,7 +16,5 @@ interface IGameRepository {
 
     suspend fun updateUserScore(points: Int): Response<Boolean>
 
-    suspend fun getUserPosition(): Response<Int>
-
     suspend fun getUsersRanking(): Response<List<User>>
 }

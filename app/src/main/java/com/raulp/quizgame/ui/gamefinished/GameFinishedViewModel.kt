@@ -18,8 +18,8 @@ class GameFinishedViewModel(private val gameRepository: GameRepository) : ViewMo
         }
     }
 
-    private var _usersRanking = MutableLiveData<Response<List<User>>>()
-    val userRanking: LiveData<Response<List<User>>>
+    private var _usersRanking = MutableLiveData<Int>()
+    val userRanking: LiveData<Int>
         get() = _usersRanking
 
     private val coroutineContext: CoroutineContext
@@ -29,18 +29,31 @@ class GameFinishedViewModel(private val gameRepository: GameRepository) : ViewMo
     val generalRankings: LiveData<Response<List<User>>>
         get() = _generalRankings
 
-    fun getUsersRanking() {
+    init {
+        getUsersRanking()
+    }
+
+    private fun getUsersRanking() {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
             val response = gameRepository.getUsersRanking()
             withContext(Dispatchers.Main) {
                 when (response) {
                     is Response.Success -> {
+                        getCurrentUserRanking(response.data)
                         _generalRankings.postValue(Response.Success(response.data))
                     }
                     is Response.Failure -> {
                         _generalRankings.postValue(Response.Failure("No users were found"))
                     }
                 }
+            }
+        }
+    }
+
+    private fun getCurrentUserRanking(data: List<User>) {
+        data.forEachIndexed { index, user ->
+            if (user.id != "") {
+                _usersRanking.postValue(index)
             }
         }
     }

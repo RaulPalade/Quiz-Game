@@ -13,7 +13,7 @@ import java.util.*
 
 data class User(
     @DocumentId
-    val id: String,
+    var id: String,
     val name: String,
     val email: String,
     val score: Int = 0,

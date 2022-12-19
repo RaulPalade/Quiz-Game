@@ -68,16 +68,6 @@ class GameRepository : IGameRepository {
         }
     }
 
-    override suspend fun getUserPosition(): Response<Int> {
-        return try {
-            val response = auth.currentUser?.let { userRef.document(it.uid).get().await() }
-            val score = Integer.parseInt(response?.data?.get("score").toString())
-            Response.Success(score)
-        } catch (e: Exception) {
-            Response.Failure("Impossible to update document")
-        }
-    }
-
     override suspend fun getUsersRanking(): Response<List<User>> {
         try {
             val response = userRef.get().await()
@@ -88,6 +78,9 @@ class GameRepository : IGameRepository {
                 val score = Integer.parseInt(docSnap.data?.get("score").toString())
 
                 val user = User(name = name, score = score)
+                if (auth.currentUser?.uid == docSnap.id) {
+                    user.id = auth.currentUser!!.uid
+                }
                 users.add(user)
             }
 

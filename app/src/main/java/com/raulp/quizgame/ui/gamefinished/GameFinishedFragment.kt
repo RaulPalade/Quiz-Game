@@ -1,5 +1,6 @@
 package com.raulp.quizgame.ui.gamefinished
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +27,7 @@ class GameFinishedFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
@@ -39,13 +41,15 @@ class GameFinishedFragment : Fragment() {
 
         setGameStats(game)
 
-        viewModel.getUsersRanking()
-        viewModel.generalRankings.observe(viewLifecycleOwner) { userRankings ->
-            println("ARRIVO QUI")
-            when (userRankings) {
+        viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
+            binding.playerRanking.text = (userRanking + 1).toString()
+        }
+
+        viewModel.generalRankings.observe(viewLifecycleOwner) { rankings ->
+            when (rankings) {
                 is Response.Success -> {
-                    println(userRankings.data)
-                    userRankings.let { adapter.submitList(it.data) }
+                    binding.totalPlayers.text = rankings.data.size.toString()
+                    rankings.let { adapter.submitList(it.data) }
                 }
                 is Response.Failure -> {
                     println("No questions were found")
@@ -55,10 +59,11 @@ class GameFinishedFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setGameStats(game: Game) {
-        binding.totalAnswered.text = game.totalQuestions.toString()
+        binding.numberOfQuestions.text = game.totalQuestions.toString()
         binding.totalCorrect.text = game.correct.toString()
-        binding.totalWrong.text = game.wrong.toString()
+        binding.totalWrong.text = (game.wrong + game.notAnswered).toString()
     }
 
     private fun setupViewModel() {

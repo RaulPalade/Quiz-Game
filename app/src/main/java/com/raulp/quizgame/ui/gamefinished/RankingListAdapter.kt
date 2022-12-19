@@ -39,7 +39,7 @@ class RankingListAdapter : ListAdapter<User, RankingListAdapter.RankingViewHolde
         @SuppressLint("SetTextI18n")
         fun bind(user: User) {
             binding.apply {
-                playerPosition.text = index.toString()
+                playerPosition.text = "${index}."
                 playerName.text = user.name
                 playerPoints.text = "${user.score} Points"
                 index++
@@ -48,7 +48,13 @@ class RankingListAdapter : ListAdapter<User, RankingListAdapter.RankingViewHolde
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankingViewHolder {
-        return RankingViewHolder(RankingListItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return RankingViewHolder(
+            RankingListItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: RankingViewHolder, position: Int) {

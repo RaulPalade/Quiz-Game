@@ -57,7 +57,7 @@ class GameFragment : Fragment() {
             }
         }
 
-        object : CountDownTimer(1200000L, 1000) {
+        object : CountDownTimer(6000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                 val format = String.format(
@@ -68,6 +68,7 @@ class GameFragment : Fragment() {
             }
 
             override fun onFinish() {
+                game.notAnswered = game.totalQuestions - index
                 endGame()
             }
         }.start()
@@ -96,7 +97,7 @@ class GameFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setNextQuestion() {
-        binding.totalQuestions.text = "${index}/20"
+        binding.totalQuestions.text = "${index + 1}/${game.totalQuestions}"
         binding.points.text = "${game.points} Points"
         binding.question.text = questions[index].question
 
