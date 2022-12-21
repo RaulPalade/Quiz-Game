@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.raulp.quizgame.databinding.FragmentProfileBinding
 import com.raulp.quizgame.repository.GameRepository
+import com.raulp.quizgame.ui.game.GameViewModel
+import com.raulp.quizgame.ui.game.GameViewModelFactory
+import com.squareup.picasso.Picasso
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val gameRepository = GameRepository()
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,13 +28,18 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
-        binding.profileViewModel = viewModel
+        binding.lifecycleOwner = this
+        binding.gameViewModel = viewModel
+
+        Picasso.get()
+            .load("https://firebasestorage.googleapis.com/v0/b/quiz-game-4c85c.appspot.com/o/profile_images%2Faiony-haust-3TLl_97HNJo-unsplash.jpg?alt=media&token=c7823b9a-be22-4cc2-b198-ede2a44de904")
+            .into(binding.profileImage)
     }
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            ProfileViewModelFactory(gameRepository)
-        )[ProfileViewModel::class.java]
+            GameViewModelFactory(gameRepository)
+        )[GameViewModel::class.java]
     }
 }

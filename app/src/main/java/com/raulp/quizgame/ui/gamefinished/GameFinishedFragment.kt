@@ -14,12 +14,14 @@ import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Game
 import com.raulp.quizgame.databinding.FragmentGameFinishedBinding
 import com.raulp.quizgame.repository.GameRepository
+import com.raulp.quizgame.ui.game.GameViewModel
+import com.raulp.quizgame.ui.game.GameViewModelFactory
 import com.raulp.quizgame.ui.rankings.RankingListAdapter
 
 class GameFinishedFragment : Fragment() {
     private lateinit var binding: FragmentGameFinishedBinding
     private val gameRepository = GameRepository()
-    private lateinit var viewModel: GameFinishedViewModel
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +36,7 @@ class GameFinishedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         binding.lifecycleOwner = this
-        binding.gameFinishedViewModel = viewModel
+        binding.gameViewModel = viewModel
         val args: GameFinishedFragmentArgs by navArgs()
         val game = args.game
 
@@ -42,6 +44,8 @@ class GameFinishedFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         setGameStats(game)
+
+        viewModel.getUsersRanking()
 
         viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
             binding.playerRanking.text = (userRanking + 1).toString()
@@ -77,7 +81,7 @@ class GameFinishedFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameFinishedViewModelFactory(gameRepository)
-        )[GameFinishedViewModel::class.java]
+            GameViewModelFactory(gameRepository)
+        )[GameViewModel::class.java]
     }
 }

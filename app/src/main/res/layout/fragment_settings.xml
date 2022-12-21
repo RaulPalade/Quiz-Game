@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="settingsViewModel"
-            type="com.raulp.quizgame.ui.settings.SettingsViewModel" />
+            name="gameViewModel"
+            type="com.raulp.quizgame.ui.game.GameViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

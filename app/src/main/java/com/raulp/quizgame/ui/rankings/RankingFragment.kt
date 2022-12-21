@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentRankingsBinding
 import com.raulp.quizgame.repository.GameRepository
+import com.raulp.quizgame.ui.game.GameViewModel
+import com.raulp.quizgame.ui.game.GameViewModelFactory
 
 /**
  * @author Raul Palade
@@ -21,7 +23,7 @@ import com.raulp.quizgame.repository.GameRepository
 class RankingFragment : Fragment() {
     private lateinit var binding: FragmentRankingsBinding
     private val gameRepository = GameRepository()
-    private lateinit var viewModel: RankingViewModel
+    private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,9 +39,11 @@ class RankingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         binding.lifecycleOwner = this
-        binding.rankingViewModel = viewModel
+        binding.gameViewModel = viewModel
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
+
+        viewModel.getUsersRanking()
 
         viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
             binding.playerRanking.text = (userRanking + 1).toString()
@@ -57,13 +61,12 @@ class RankingFragment : Fragment() {
             }
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-
     }
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            RankingViewModelFactory(gameRepository)
-        )[RankingViewModel::class.java]
+            GameViewModelFactory(gameRepository)
+        )[GameViewModel::class.java]
     }
 }
