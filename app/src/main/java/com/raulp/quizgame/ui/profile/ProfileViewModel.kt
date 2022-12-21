@@ -33,6 +33,8 @@ class ProfileViewModel(private val gameRepository: GameRepository) : ViewModel()
     val userRanking: LiveData<Int>
         get() = _usersRanking
 
+    fun signOut() {}
+
     private fun getUserProfile() {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
             val response = gameRepository.getUserProfile()
