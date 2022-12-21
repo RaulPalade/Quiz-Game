@@ -64,10 +64,10 @@ class AuthRepository : IAuthRepository {
         val doc = usersRef.document(user.id).get().await()
         return if (!doc.exists()) {
 
-            val profilePhotoRef = storage.getReference("profile_images/${user.id}")
-            profilePhotoRef.putFile(profileImage).await()
-
-            val newUser = User(user.name, user.email)
+            val profilePhotoRef = storage.getReference("profile_images/${user.name}_${user.id}")
+            val response = profilePhotoRef.putFile(profileImage).await().storage.downloadUrl.await()
+            val newUser =
+                User(name = user.name, email = user.email, profileImage = response.toString())
             usersRef.document(user.id).set(newUser)
             Response.Success(true)
         } else {

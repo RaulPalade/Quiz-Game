@@ -44,4 +44,12 @@ data class User(
         score = score,
         profileImage = profileImage
     )
+
+    constructor(name: String, email: String, profileImage: String) : this(
+        id = "",
+        name = name,
+        email = email,
+        score = 0,
+        profileImage = profileImage
+    )
 }
