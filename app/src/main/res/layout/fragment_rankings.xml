@@ -67,6 +67,7 @@
                 android:id="@+id/currect_place_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ranking_current_place" />
 
@@ -74,6 +75,7 @@
                 android:id="@+id/current_place_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="Current Place:"
                 android:textColor="@color/black"
@@ -83,6 +85,7 @@
                 android:id="@+id/player_ranking"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textColor="@color/black"
@@ -104,12 +107,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ranking_players_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="Players:"
                 android:textColor="@color/black"
@@ -119,6 +124,7 @@
                 android:id="@+id/total_players"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:textColor="@color/black"
