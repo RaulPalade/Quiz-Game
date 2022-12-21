@@ -31,11 +31,29 @@
                 android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:backgroundTint="@android:color/transparent"
                 android:src="@drawable/top_menu_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_image"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/girl"
+                android:padding="2dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+                app:strokeColor="@color/white"
+                app:strokeWidth="3dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,39 +81,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                tools:text="1/20"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/question_icon"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="1/20" />
 
             <TextView
                 android:id="@+id/points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="10 points"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/timer"
                 app:layout_constraintStart_toEndOf="@id/total_questions"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="10 points" />
 
             <TextView
                 android:id="@+id/timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                tools:text="20:00"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/timer_icon"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="20:00" />
 
             <ImageView
                 android:id="@+id/timer_icon"
@@ -126,14 +144,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            tools:text="What is the capital of Italy?"
             android:textColor="@color/black"
             android:textFontWeight="700"
             android:textSize="24dp"
             app:layout_constraintBottom_toTopOf="@id/questions_list_labels"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/game_infos" />
+            app:layout_constraintTop_toBottomOf="@id/game_infos"
+            tools:text="What is the capital of Italy?" />
 
         <LinearLayout
             android:id="@+id/questions_list_labels"
@@ -153,11 +171,11 @@
                 android:background="@drawable/game_answer_label"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                tools:text="A) Turin"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
-                android:textSize="24dp" />
+                android:textSize="24dp"
+                tools:text="A) Turin" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/option_2"
@@ -167,11 +185,11 @@
                 android:background="@drawable/game_answer_label"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                tools:text="B) Rome"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
-                android:textSize="24dp" />
+                android:textSize="24dp"
+                tools:text="B) Rome" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/option_3"
@@ -181,11 +199,11 @@
                 android:background="@drawable/game_answer_label"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                tools:text="C) Florence"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
-                android:textSize="24dp" />
+                android:textSize="24dp"
+                tools:text="C) Florence" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/option_4"
@@ -195,11 +213,11 @@
                 android:background="@drawable/game_answer_label"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
-                tools:text="D) Milan"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textFontWeight="700"
-                android:textSize="24dp" />
+                android:textSize="24dp"
+                tools:text="D) Milan" />
 
 
         </LinearLayout>

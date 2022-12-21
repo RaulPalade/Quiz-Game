@@ -30,6 +30,7 @@
                 android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:backgroundTint="@android:color/transparent"
                 android:src="@drawable/top_menu_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
