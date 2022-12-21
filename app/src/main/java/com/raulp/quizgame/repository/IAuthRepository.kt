@@ -18,7 +18,7 @@ interface IAuthRepository {
 
     suspend fun signUp(email: String, password: String): Response<String>
 
-    suspend fun addUserOnFirestore(user: User, profileImage: Uri): Response<Boolean>
+    suspend fun addUserOnFirestore(user: User, profileImage: Uri?): Response<Boolean>
 
     suspend fun sendVerificationEmail(): Response<Boolean>
 

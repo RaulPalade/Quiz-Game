@@ -29,8 +29,14 @@ class AuthRepository : IAuthRepository {
             val id = response.user!!.uid
             val email = response.user!!.email
             val name = response.user!!.displayName?.trim()?.split("\\s+".toRegex())
+            val profileImage = response.user!!.photoUrl.toString()
             val user =
-                User(id, email.toString(), name!![0])
+                User(
+                    id = id,
+                    email = email.toString(),
+                    name = name!![0],
+                    profileImage = profileImage
+                )
             Response.Success(user)
         } else {
             Response.Failure("Errore durante il login")
@@ -60,15 +66,22 @@ class AuthRepository : IAuthRepository {
         }
     }
 
-    override suspend fun addUserOnFirestore(user: User, profileImage: Uri): Response<Boolean> {
+    override suspend fun addUserOnFirestore(user: User, profileImage: Uri?): Response<Boolean> {
         val doc = usersRef.document(user.id).get().await()
         return if (!doc.exists()) {
+            if (profileImage != null) {
+                val profilePhotoRef = storage.getReference("profile_images/${user.name}_${user.id}")
+                val response =
+                    profilePhotoRef.putFile(profileImage).await().storage.downloadUrl.await()
+                val newUser =
+                    User(name = user.name, email = user.email, profileImage = response.toString())
+                usersRef.document(user.id).set(newUser)
+            } else {
+                val newUser =
+                    User(name = user.name, email = user.email, profileImage = user.profileImage)
+                usersRef.document(user.id).set(newUser)
+            }
 
-            val profilePhotoRef = storage.getReference("profile_images/${user.name}_${user.id}")
-            val response = profilePhotoRef.putFile(profileImage).await().storage.downloadUrl.await()
-            val newUser =
-                User(name = user.name, email = user.email, profileImage = response.toString())
-            usersRef.document(user.id).set(newUser)
             Response.Success(true)
         } else {
             Response.Failure("Document already exists")

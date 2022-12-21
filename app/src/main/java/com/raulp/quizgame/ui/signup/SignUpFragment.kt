@@ -27,7 +27,6 @@ class SignUpFragment : Fragment() {
     private val authRepository = AuthRepository()
     private lateinit var viewModel: SignUpViewModel
     private var imageUri: Uri? = null
-    private lateinit var encodedImage: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
