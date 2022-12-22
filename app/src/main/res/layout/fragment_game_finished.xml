@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:backgroundTint="@android:color/transparent"
-                android:src="@drawable/top_menu_icon"
+                android:src="@drawable/menu_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
