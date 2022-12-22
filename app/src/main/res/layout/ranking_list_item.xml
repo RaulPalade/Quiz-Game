@@ -13,20 +13,39 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1." />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profile_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:adjustViewBounds="true"
+        android:padding="4dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toStartOf="@id/player_name"
+        app:layout_constraintStart_toEndOf="@id/player_position"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        tools:background="@drawable/girl" />
 
     <TextView
         android:id="@+id/player_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
         android:textColor="@color/black"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/player_points"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/player_position"
+        app:layout_constraintStart_toEndOf="@id/profile_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Nancy" />
 
@@ -36,6 +55,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="450 Points" />

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.raulp.quizgame.data.User
 import com.raulp.quizgame.databinding.RankingListItemBinding
+import com.squareup.picasso.Picasso
 
 /**
  * @author Raul Palade
@@ -35,6 +36,7 @@ class RankingListAdapter : ListAdapter<User, RankingListAdapter.RankingViewHolde
         fun bind(user: User, position: Int) {
             binding.apply {
                 playerPosition.text = "$position."
+                Picasso.get().load(user.profileImage).into(profileImage)
                 playerName.text = user.name
                 playerPoints.text = "${user.score} Points"
             }

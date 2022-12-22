@@ -98,9 +98,12 @@ class GameRepository : IGameRepository {
 
             response.documents.forEach { docSnap ->
                 val name = docSnap.data?.get("name").toString()
+                val email = docSnap.data?.get("email").toString()
                 val score = Integer.parseInt(docSnap.data?.get("score").toString())
+                val profileImage = docSnap.data?.get("profileImage").toString()
 
-                val user = User(name = name, score = score)
+                val user =
+                    User(name = name, email = email, score = score, profileImage = profileImage)
                 if (auth.currentUser?.uid == docSnap.id) {
                     user.id = auth.currentUser!!.uid
                 }
