@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentSettingsBinding
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
+import com.squareup.picasso.Picasso
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
@@ -30,6 +32,19 @@ class SettingsFragment : Fragment() {
         setupViewModel()
         binding.lifecycleOwner = this
         binding.gameViewModel = viewModel
+
+        viewModel.getUserProfile()
+
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            when (user) {
+                is Response.Success -> {
+                    Picasso.get().load(user.data.profileImage).into(binding.profileImage)
+                }
+                is Response.Failure -> {
+                    println("No questions were found")
+                }
+            }
+        }
 
         binding.imageButton.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsFragmentToMenuFragment()

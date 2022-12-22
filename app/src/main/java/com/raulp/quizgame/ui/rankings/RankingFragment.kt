@@ -14,6 +14,7 @@ import com.raulp.quizgame.databinding.FragmentRankingsBinding
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
+import com.squareup.picasso.Picasso
 
 /**
  * @author Raul Palade
@@ -43,6 +44,20 @@ class RankingFragment : Fragment() {
         binding.gameViewModel = viewModel
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
+
+        viewModel.getUserProfile()
+
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            when (user) {
+                is Response.Success -> {
+                    Picasso.get().load(user.data.profileImage).into(binding.profileImage)
+                }
+                is Response.Failure -> {
+                    println("No questions were found")
+                }
+            }
+        }
+
 
         binding.imageButton.setOnClickListener {
             val action = RankingFragmentDirections.actionRankingFragmentToMenuFragment()

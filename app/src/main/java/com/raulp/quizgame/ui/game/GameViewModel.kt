@@ -105,7 +105,7 @@ class GameViewModel(private val gameRepository: GameRepository) : ViewModel() {
 
     fun signOut() {}
 
-    private fun getUserProfile() {
+    fun getUserProfile() {
         job = CoroutineScope(coroutineContext).launch(exceptionHandler) {
             val response = gameRepository.getUserProfile()
             withContext(Dispatchers.Main) {

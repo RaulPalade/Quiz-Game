@@ -1,5 +1,6 @@
 package com.raulp.quizgame.ui.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentProfileBinding
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
@@ -26,15 +28,44 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         binding.lifecycleOwner = this
         binding.gameViewModel = viewModel
 
-        Picasso.get()
-            .load("https://firebasestorage.googleapis.com/v0/b/quiz-game-4c85c.appspot.com/o/profile_images%2Faiony-haust-3TLl_97HNJo-unsplash.jpg?alt=media&token=c7823b9a-be22-4cc2-b198-ede2a44de904")
-            .into(binding.profileImage)
+        viewModel.getUserProfile()
+
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            when (user) {
+                is Response.Success -> {
+                    Picasso.get().load(user.data.profileImage).into(binding.profileImage)
+                    binding.userName.text = user.data.name
+                    binding.playerPoints.text = user.data.score.toString()
+                }
+                is Response.Failure -> {
+                    println("No questions were found")
+                }
+            }
+        }
+
+        viewModel.getUsersRanking()
+
+        viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
+            binding.playerRanking.text = (userRanking + 1).toString()
+        }
+
+        viewModel.generalRankings.observe(viewLifecycleOwner) { rankings ->
+            when (rankings) {
+                is Response.Success -> {
+                    binding.totalPlayers.text = rankings.data.size.toString()
+                }
+                is Response.Failure -> {
+                    println("No questions were found")
+                }
+            }
+        }
 
         binding.imageButton.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToMenuFragment()

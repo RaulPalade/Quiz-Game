@@ -17,6 +17,7 @@ import com.raulp.quizgame.data.Game
 import com.raulp.quizgame.data.Question
 import com.raulp.quizgame.databinding.FragmentGameBinding
 import com.raulp.quizgame.repository.GameRepository
+import com.squareup.picasso.Picasso
 import java.util.concurrent.TimeUnit
 
 
@@ -28,6 +29,7 @@ class GameFragment : Fragment() {
     private var game = Game(5)
     private lateinit var questions: List<Question>
     private lateinit var countDownTimer: CountDownTimer
+    private lateinit var photoUrl: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,9 @@ class GameFragment : Fragment() {
         binding.gameViewModel = viewModel
         val args: GameFragmentArgs by navArgs()
         val topic = args.topic
+        photoUrl = args.photoUrl
+
+        Picasso.get().load(photoUrl).into(binding.profileImage)
 
         viewModel.getQuestions(topic)
         viewModel.questions.observe(viewLifecycleOwner) { questionResponse ->
@@ -133,7 +138,8 @@ class GameFragment : Fragment() {
 
     private fun endGame() {
         countDownTimer.cancel()
-        val action = GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game)
+        val action =
+            GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game, photoUrl)
         viewModel.updateUserScore(game.points)
         viewModel.scoreUpdated.observe(viewLifecycleOwner) { scoreUpdated ->
             when (scoreUpdated) {

@@ -18,6 +18,7 @@ import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
 import com.raulp.quizgame.ui.rankings.RankingListAdapter
+import com.squareup.picasso.Picasso
 
 class GameFinishedFragment : Fragment() {
     private lateinit var binding: FragmentGameFinishedBinding
@@ -48,9 +49,12 @@ class GameFinishedFragment : Fragment() {
         binding.gameViewModel = viewModel
         val args: GameFinishedFragmentArgs by navArgs()
         val game = args.game
+        val photoUrl = args.photoUrl
 
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
+
+        Picasso.get().load(photoUrl).into(binding.profileImage)
 
         binding.imageButton.setOnClickListener {
             val action = GameFinishedFragmentDirections.actionGameFinishedFragmentToMenuFragment()

@@ -8,6 +8,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Topic.*
 import com.raulp.quizgame.databinding.FragmentHomeBinding
 import com.raulp.quizgame.repository.GameRepository
@@ -39,9 +40,20 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.gameViewModel = viewModel
 
-        Picasso.get()
-            .load("https://firebasestorage.googleapis.com/v0/b/quiz-game-4c85c.appspot.com/o/profile_images%2Faiony-haust-3TLl_97HNJo-unsplash.jpg?alt=media&token=c7823b9a-be22-4cc2-b198-ede2a44de904")
-            .into(binding.profileImage)
+        viewModel.getUserProfile()
+
+        var photoUrl = ""
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            when (user) {
+                is Response.Success -> {
+                    photoUrl = user.data.profileImage
+                    Picasso.get().load(photoUrl).into(binding.profileImage)
+                }
+                is Response.Failure -> {
+                    println("No questions were found")
+                }
+            }
+        }
 
         binding.imageButton.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToMenuFragment()
@@ -55,19 +67,25 @@ class HomeFragment : Fragment() {
 
         binding.card1.setOnClickListener {
             val action =
-                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(EUROPE_AFRICA)
+                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(
+                    EUROPE_AFRICA,
+                    photoUrl
+                )
             this.findNavController().navigate(action)
         }
 
         binding.card2.setOnClickListener {
             val action =
-                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(ASIA_OCEANIA)
+                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(
+                    ASIA_OCEANIA,
+                    photoUrl
+                )
             this.findNavController().navigate(action)
         }
 
         binding.card3.setOnClickListener {
             val action =
-                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(AMERICAS)
+                HomeFragmentDirections.actionHomeFragmentToGameStartedFragment(AMERICAS, photoUrl)
             this.findNavController().navigate(action)
         }
     }
