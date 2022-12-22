@@ -18,6 +18,10 @@
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_homeFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/gameStartedFragment"
@@ -41,14 +45,17 @@
             android:name="game"
             app:argType="com.raulp.quizgame.data.Game" />
         <action
-            android:id="@+id/action_gameFinishedFragment_to_rankingFragment"
-            app:destination="@id/rankingFragment" />
+            android:id="@+id/action_gameFinishedFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_gameFinishedFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
         <action
             android:id="@+id/action_gameFinishedFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_gameFinishedFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/rankingFragment"
@@ -56,20 +63,58 @@
         android:label="RankingFragment"
         tools:layout="@layout/fragment_rankings">
         <action
-            android:id="@+id/action_rankingFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            android:id="@+id/action_rankingFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
         <action
-            android:id="@+id/action_rankingFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            android:id="@+id/action_rankingFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.raulp.quizgame.ui.profile.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.raulp.quizgame.ui.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_menuFragment"
+            app:destination="@id/menuFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.raulp.quizgame.ui.menu.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu">
+        <action
+            android:id="@+id/action_menuFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_menuFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_menuFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+        <action
+            android:id="@+id/action_menuFragment_to_rankingFragment"
+            app:destination="@id/rankingFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+    </fragment>
 </navigation>

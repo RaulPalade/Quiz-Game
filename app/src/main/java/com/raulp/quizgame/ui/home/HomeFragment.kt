@@ -43,6 +43,11 @@ class HomeFragment : Fragment() {
             .load("https://firebasestorage.googleapis.com/v0/b/quiz-game-4c85c.appspot.com/o/profile_images%2Faiony-haust-3TLl_97HNJo-unsplash.jpg?alt=media&token=c7823b9a-be22-4cc2-b198-ede2a44de904")
             .into(binding.profileImage)
 
+        binding.imageButton.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToMenuFragment()
+            this.findNavController().navigate(action)
+        }
+
         binding.profileImage.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment()
             this.findNavController().navigate(action)

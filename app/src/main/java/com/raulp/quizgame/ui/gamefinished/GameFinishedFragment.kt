@@ -52,6 +52,11 @@ class GameFinishedFragment : Fragment() {
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
 
+        binding.imageButton.setOnClickListener {
+            val action = GameFinishedFragmentDirections.actionGameFinishedFragmentToMenuFragment()
+            this.findNavController().navigate(action)
+        }
+
         binding.profileImage.setOnClickListener {
             val action =
                 GameFinishedFragmentDirections.actionGameFinishedFragmentToProfileFragment()
@@ -77,12 +82,6 @@ class GameFinishedFragment : Fragment() {
             }
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(this.context)
-
-        binding.recyclerTitle.setOnClickListener {
-            val action =
-                GameFinishedFragmentDirections.actionGameFinishedFragmentToRankingFragment()
-            this.findNavController().navigate(action)
-        }
     }
 
     @SuppressLint("SetTextI18n")

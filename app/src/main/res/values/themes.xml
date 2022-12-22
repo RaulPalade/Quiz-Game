@@ -15,4 +15,13 @@
         <item name="android:fontFamily">@font/inika</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="Theme.QuizGame.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.QuizGame.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.QuizGame.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

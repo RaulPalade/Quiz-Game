@@ -5,4 +5,15 @@
     <string name="SHA1">BE:9B:D0:7E:82:BE:67:53:1B:57:BF:64:3A:AA:B2:01:D7:26:87:B8</string>
     <string name="google_auth_client_id2">500198612520-mni3i324a3upo1o1e7vvb1v5okeck4qn.apps.googleusercontent.com</string>
     <string name="google_auth_client_id">713337783977-9ugeadkupfl6pjjvqsvn3jamrft8gikj.apps.googleusercontent.com</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>

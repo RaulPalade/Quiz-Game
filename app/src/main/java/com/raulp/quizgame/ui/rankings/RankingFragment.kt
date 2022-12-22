@@ -44,6 +44,11 @@ class RankingFragment : Fragment() {
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
 
+        binding.imageButton.setOnClickListener {
+            val action = RankingFragmentDirections.actionRankingFragmentToMenuFragment()
+            this.findNavController().navigate(action)
+        }
+
         binding.profileImage.setOnClickListener {
             val action = RankingFragmentDirections.actionRankingFragmentToProfileFragment()
             this.findNavController().navigate(action)
