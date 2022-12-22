@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentRankingsBinding
@@ -42,6 +43,11 @@ class RankingFragment : Fragment() {
         binding.gameViewModel = viewModel
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
+
+        binding.profileImage.setOnClickListener {
+            val action = RankingFragmentDirections.actionRankingFragmentToProfileFragment()
+            this.findNavController().navigate(action)
+        }
 
         viewModel.getUsersRanking()
 

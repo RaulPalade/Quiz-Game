@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,6 +23,14 @@ class GameFinishedFragment : Fragment() {
     private lateinit var binding: FragmentGameFinishedBinding
     private val gameRepository = GameRepository()
     private lateinit var viewModel: GameViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            val action = GameFinishedFragmentDirections.actionGameFinishedFragmentToHomeFragment()
+            findNavController().navigate(action)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,10 +52,15 @@ class GameFinishedFragment : Fragment() {
         val adapter = RankingListAdapter()
         binding.recyclerView.adapter = adapter
 
+        binding.profileImage.setOnClickListener {
+            val action =
+                GameFinishedFragmentDirections.actionGameFinishedFragmentToProfileFragment()
+            this.findNavController().navigate(action)
+        }
+
         setGameStats(game)
 
         viewModel.getUsersRanking()
-
         viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
             binding.playerRanking.text = (userRanking + 1).toString()
         }
