@@ -44,7 +44,6 @@
                 android:layout_height="54dp"
                 android:layout_marginEnd="10dp"
                 android:adjustViewBounds="true"
-                tools:background="@drawable/girl"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -52,7 +51,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:strokeColor="@color/white"
-                app:strokeWidth="3dp" />
+                app:strokeWidth="3dp"
+                tools:background="@drawable/girl" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -227,21 +227,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bonus_menu_header"
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
+            android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageButton
+                android:id="@+id/delete_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
                 android:src="@drawable/bonus_delete" />
 
             <ImageButton
+                android:id="@+id/idea_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
@@ -249,6 +248,7 @@
 
 
             <ImageButton
+                android:id="@+id/double_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
@@ -256,6 +256,7 @@
 
 
             <ImageButton
+                android:id="@+id/half_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"

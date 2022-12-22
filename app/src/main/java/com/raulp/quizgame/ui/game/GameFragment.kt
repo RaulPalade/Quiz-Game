@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.raulp.quizgame.R
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Game
 import com.raulp.quizgame.data.Question
@@ -30,6 +32,10 @@ class GameFragment : Fragment() {
     private lateinit var questions: List<Question>
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var photoUrl: String
+    private lateinit var currentAnswers: ArrayList<String>
+    private var optionButtons = listOf<Button>()
+    private var bonusDoublePoints = false
+    private lateinit var bonusTimer: CountDownTimer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +73,7 @@ class GameFragment : Fragment() {
             }
         }
 
-        countDownTimer = object : CountDownTimer(6000L, 1000) {
+        countDownTimer = object : CountDownTimer(1200000L, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                 val format = String.format(
@@ -83,8 +89,28 @@ class GameFragment : Fragment() {
             }
         }.start()
 
-        val optionButtons =
-            listOf<Button>(binding.option1, binding.option2, binding.option3, binding.option4)
+        optionButtons = listOf(binding.option1, binding.option2, binding.option3, binding.option4)
+
+        binding.deleteBonus.setOnClickListener {
+            activateBonusDelete()
+            binding.deleteBonus.isEnabled = false
+            binding.deleteBonus.isVisible = false
+        }
+        binding.ideaBonus.setOnClickListener {
+            activateBonusIdea()
+            binding.ideaBonus.isEnabled = false
+            binding.ideaBonus.isVisible = false
+        }
+        binding.doubleBonus.setOnClickListener {
+            activateBonusDouble()
+            binding.doubleBonus.isEnabled = false
+            binding.doubleBonus.isVisible = false
+        }
+        binding.halfBonus.setOnClickListener {
+            activateBonusHalf()
+            binding.halfBonus.isEnabled = false
+            binding.halfBonus.isVisible = false
+        }
 
         optionButtons.forEach { btn ->
             btn.setOnClickListener {
@@ -111,25 +137,33 @@ class GameFragment : Fragment() {
         binding.points.text = "${game.points} Points"
         binding.question.text = questions[index].question
 
-        val answers = ArrayList<String>()
-        answers.add(questions[index].correct)
+        currentAnswers = ArrayList()
+        currentAnswers.add(questions[index].correct)
         questions[index].wrongAnswers.shuffle()
-        answers.add(questions[index].wrongAnswers[0] as String)
-        answers.add(questions[index].wrongAnswers[1] as String)
-        answers.add(questions[index].wrongAnswers[2] as String)
-        answers.shuffle()
+        currentAnswers.add(questions[index].wrongAnswers[0] as String)
+        currentAnswers.add(questions[index].wrongAnswers[1] as String)
+        currentAnswers.add(questions[index].wrongAnswers[2] as String)
+        currentAnswers.shuffle()
 
-        val optionButtons =
+        optionButtons =
             listOf<Button>(binding.option1, binding.option2, binding.option3, binding.option4)
 
         optionButtons.forEachIndexed { index, btn ->
-            btn.text = "${(index + 65).toChar()}) ${answers[index]}"
+            if (!btn.isEnabled) {
+                btn.isEnabled = true
+                btn.setBackgroundResource(R.drawable.game_answer_label)
+            }
+            btn.text = "${(index + 65).toChar()}) ${currentAnswers[index]}"
         }
     }
 
     private fun checkAnswerAndAssignPoints(answer: String) {
         if (answer == questions[index].correct) {
-            game.points += 10
+            if (bonusDoublePoints) {
+                game.points += 20
+            } else {
+                game.points += 10
+            }
             game.correct++
         } else {
             game.wrong++
@@ -137,6 +171,7 @@ class GameFragment : Fragment() {
     }
 
     private fun endGame() {
+        bonusTimer.cancel()
         countDownTimer.cancel()
         val action =
             GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game, photoUrl)
@@ -144,7 +179,6 @@ class GameFragment : Fragment() {
         viewModel.scoreUpdated.observe(viewLifecycleOwner) { scoreUpdated ->
             when (scoreUpdated) {
                 is Response.Success -> {
-
                     this.findNavController().navigate(action)
                 }
                 is Response.Failure -> {
@@ -152,6 +186,62 @@ class GameFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun activateBonusDelete() {
+        var correctIndex = 0
+        currentAnswers.forEachIndexed { index, answer ->
+            if (answer == questions[index].correct) {
+                correctIndex = index
+            }
+        }
+
+        var random = (0..3).random()
+        while (random == correctIndex) {
+            random = (0..3).random()
+        }
+
+        disableButton(random)
+    }
+
+    private fun activateBonusIdea() {
+
+    }
+
+    private fun activateBonusDouble() {
+        bonusTimer = object : CountDownTimer(30000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                bonusDoublePoints = true
+            }
+
+            override fun onFinish() {
+                bonusDoublePoints = false
+            }
+        }.start()
+    }
+
+    private fun activateBonusHalf() {
+        var correctIndex = 0
+        currentAnswers.forEachIndexed { i, answer ->
+            if (answer == questions[index].correct) {
+                correctIndex = i
+            }
+        }
+
+        var random1 = (0..3).random()
+        var random2 = (0..3).random()
+        while (random1 == correctIndex || random2 == correctIndex || random1 == random2) {
+            random1 = (0..3).random()
+            random2 = (0..3).random()
+        }
+
+        disableButton(random1)
+        disableButton(random2)
+    }
+
+    private fun disableButton(random: Int) {
+        optionButtons[random].isEnabled = false
+        optionButtons[random].setBackgroundResource(R.drawable.game_answer_label_delete)
     }
 
     private fun setupViewModel() {
