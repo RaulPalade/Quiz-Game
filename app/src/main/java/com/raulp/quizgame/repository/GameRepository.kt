@@ -2,8 +2,8 @@ package com.raulp.quizgame.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Question
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.data.Topic
 import com.raulp.quizgame.data.Topic.*
 import com.raulp.quizgame.data.User
@@ -23,7 +23,30 @@ class GameRepository : IGameRepository {
     private val europeAfricaRef = rootRef.collection("questions_europe_africa")
     private val asiaOceaniaRef = rootRef.collection("questions_asia_oceania")
 
-    override suspend fun getQuestions(topic: Topic): Response<List<Question>> {
+    override suspend fun getUserProfile(): Response<User> {
+        try {
+            val userId = auth.currentUser?.uid
+            val docSnap = userId?.let { userRef.document(it).get().await() }
+
+            val name = docSnap?.data?.get("name").toString()
+            val email = docSnap?.data?.get("email").toString()
+            val score = Integer.parseInt(docSnap?.data?.get("score").toString())
+            val profileImage = docSnap?.data?.get("profileImage").toString()
+
+            val user = User(
+                name = name,
+                email = email,
+                score = score,
+                profileImage = profileImage
+            )
+
+            return Response.Success(user)
+        } catch (e: Exception) {
+            return Response.Failure("User not found")
+        }
+    }
+
+    override suspend fun getQuestionList(topic: Topic): Response<List<Question>> {
         val response = when (topic) {
             AMERICAS -> {
                 americasRef.get().await()
@@ -56,42 +79,7 @@ class GameRepository : IGameRepository {
         }
     }
 
-    override suspend fun updateUserScore(points: Int): Response<Boolean> {
-        return try {
-            val response = auth.currentUser?.let { userRef.document(it.uid).get().await() }
-            val oldScore = Integer.parseInt(response?.data?.get("score").toString())
-            val newScore = oldScore + points
-            auth.currentUser?.let { userRef.document(it.uid).update("score", newScore).await() }
-            Response.Success(true)
-        } catch (e: Exception) {
-            Response.Failure("Impossible to update document")
-        }
-    }
-
-    override suspend fun getUserProfile(): Response<User> {
-        try {
-            val userId = auth.currentUser?.uid
-            val docSnap = userId?.let { userRef.document(it).get().await() }
-
-            val name = docSnap?.data?.get("name").toString()
-            val email = docSnap?.data?.get("email").toString()
-            val score = Integer.parseInt(docSnap?.data?.get("score").toString())
-            val profileImage = docSnap?.data?.get("profileImage").toString()
-
-            val user = User(
-                name = name,
-                email = email,
-                score = score,
-                profileImage = profileImage
-            )
-
-            return Response.Success(user)
-        } catch (e: Exception) {
-            return Response.Failure("User not found")
-        }
-    }
-
-    override suspend fun getUsersRanking(): Response<List<User>> {
+    override suspend fun getRankingList(): Response<List<User>> {
         try {
             val response = userRef.get().await()
             val users = ArrayList<User>()
@@ -115,7 +103,17 @@ class GameRepository : IGameRepository {
         } catch (e: Exception) {
             return Response.Failure("Impossible to get users ranking")
         }
-
     }
 
+    override suspend fun updateUserScore(points: Int): Response<Boolean> {
+        return try {
+            val response = auth.currentUser?.let { userRef.document(it.uid).get().await() }
+            val oldScore = Integer.parseInt(response?.data?.get("score").toString())
+            val newScore = oldScore + points
+            auth.currentUser?.let { userRef.document(it.uid).update("score", newScore).await() }
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure("Impossible to update document")
+        }
+    }
 }

@@ -22,7 +22,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.raulp.quizgame.MainActivity
 import com.raulp.quizgame.R
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.databinding.FragmentSignInBinding
 import com.raulp.quizgame.repository.AuthRepository
 
@@ -46,8 +46,6 @@ class SignInFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.signInViewModel = viewModel
         initGoogleSignInClient()
-
-        viewModel.logOut()
 
         if (viewModel.checkIfUserLoggedIn()) {
             goToHome()

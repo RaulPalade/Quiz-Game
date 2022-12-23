@@ -14,21 +14,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.raulp.quizgame.R
-import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Game
 import com.raulp.quizgame.data.Question
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.databinding.FragmentGameBinding
+import com.raulp.quizgame.repository.AuthRepository
 import com.raulp.quizgame.repository.GameRepository
 import com.squareup.picasso.Picasso
 import java.util.concurrent.TimeUnit
 
-
 class GameFragment : Fragment() {
     private lateinit var binding: FragmentGameBinding
     private val gameRepository = GameRepository()
+    private val authRepository = AuthRepository()
     private lateinit var viewModel: GameViewModel
     private var index = 0
-    private var game = Game(5)
+    private var game = Game(20)
     private lateinit var questions: List<Question>
     private lateinit var countDownTimer: CountDownTimer
     private lateinit var photoUrl: String
@@ -61,8 +62,8 @@ class GameFragment : Fragment() {
 
         Picasso.get().load(photoUrl).into(binding.profileImage)
 
-        viewModel.getQuestions(topic)
-        viewModel.questions.observe(viewLifecycleOwner) { questionResponse ->
+        viewModel.getQuestionList(topic)
+        viewModel.questionList.observe(viewLifecycleOwner) { questionResponse ->
             when (questionResponse) {
                 is Response.Success -> {
                     startGame(questionResponse.data)
@@ -179,7 +180,7 @@ class GameFragment : Fragment() {
         val action =
             GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game, photoUrl)
         viewModel.updateUserScore(game.points)
-        viewModel.scoreUpdated.observe(viewLifecycleOwner) { scoreUpdated ->
+        viewModel.score.observe(viewLifecycleOwner) { scoreUpdated ->
             when (scoreUpdated) {
                 is Response.Success -> {
                     this.findNavController().navigate(action)
@@ -250,7 +251,7 @@ class GameFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameViewModelFactory(gameRepository)
+            GameViewModelFactory(gameRepository, authRepository)
         )[GameViewModel::class.java]
     }
 }

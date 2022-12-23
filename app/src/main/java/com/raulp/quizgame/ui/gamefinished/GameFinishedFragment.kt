@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.raulp.quizgame.Response
 import com.raulp.quizgame.data.Game
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.databinding.FragmentGameFinishedBinding
+import com.raulp.quizgame.repository.AuthRepository
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
@@ -23,6 +24,7 @@ import com.squareup.picasso.Picasso
 class GameFinishedFragment : Fragment() {
     private lateinit var binding: FragmentGameFinishedBinding
     private val gameRepository = GameRepository()
+    private val authRepository = AuthRepository()
     private lateinit var viewModel: GameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,8 +71,8 @@ class GameFinishedFragment : Fragment() {
 
         setGameStats(game)
 
-        viewModel.getUsersRanking()
-        viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
+        viewModel.getRankingList()
+        viewModel.personalRanking.observe(viewLifecycleOwner) { userRanking ->
             binding.playerRanking.text = (userRanking + 1).toString()
         }
 
@@ -98,7 +100,7 @@ class GameFinishedFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameViewModelFactory(gameRepository)
+            GameViewModelFactory(gameRepository, authRepository)
         )[GameViewModel::class.java]
     }
 }

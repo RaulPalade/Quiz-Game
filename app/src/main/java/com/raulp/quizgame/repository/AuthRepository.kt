@@ -7,7 +7,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.data.User
 import kotlinx.coroutines.tasks.await
 
@@ -53,6 +53,15 @@ class AuthRepository : IAuthRepository {
             Response.Success(user)
         } else {
             Response.Failure("Errore durante il login")
+        }
+    }
+
+    override suspend fun signOut(): Response<Boolean> {
+        return try {
+            auth.signOut()
+            Response.Success(true)
+        } catch (e: Exception) {
+            Response.Failure("Impossible to logout")
         }
     }
 

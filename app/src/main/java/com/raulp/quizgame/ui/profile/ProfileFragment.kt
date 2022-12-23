@@ -1,6 +1,7 @@
 package com.raulp.quizgame.ui.profile
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,8 +9,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.AuthActivity
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.databinding.FragmentProfileBinding
+import com.raulp.quizgame.repository.AuthRepository
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
@@ -18,6 +21,7 @@ import com.squareup.picasso.Picasso
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val gameRepository = GameRepository()
+    private val authRepository = AuthRepository()
     private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
@@ -37,7 +41,7 @@ class ProfileFragment : Fragment() {
 
         viewModel.getUserProfile()
 
-        viewModel.user.observe(viewLifecycleOwner) { user ->
+        viewModel.profile.observe(viewLifecycleOwner) { user ->
             when (user) {
                 is Response.Success -> {
                     Picasso.get().load(user.data.profileImage).into(binding.profileImage)
@@ -50,9 +54,9 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        viewModel.getUsersRanking()
+        viewModel.getRankingList()
 
-        viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
+        viewModel.personalRanking.observe(viewLifecycleOwner) { userRanking ->
             binding.playerRanking.text = (userRanking + 1).toString()
         }
 
@@ -67,16 +71,33 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        viewModel.logout.observe(viewLifecycleOwner) { logout ->
+            when (logout) {
+                is Response.Success -> {
+                    goToSignIn()
+                }
+                is Response.Failure -> {
+                    println("Unable to logout")
+                }
+            }
+        }
+
         binding.menuBtn.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToMenuFragment()
             this.findNavController().navigate(action)
         }
     }
 
+    private fun goToSignIn() {
+        val intent = Intent(context, AuthActivity::class.java)
+        startActivity(intent)
+        activity?.finish()
+    }
+
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameViewModelFactory(gameRepository)
+            GameViewModelFactory(gameRepository, authRepository)
         )[GameViewModel::class.java]
     }
 }

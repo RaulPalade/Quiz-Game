@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.raulp.quizgame.MainActivity
 import com.raulp.quizgame.R
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.databinding.FragmentSignUpBinding
 import com.raulp.quizgame.repository.AuthRepository
 

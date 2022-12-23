@@ -8,9 +8,10 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.data.Topic.*
 import com.raulp.quizgame.databinding.FragmentHomeBinding
+import com.raulp.quizgame.repository.AuthRepository
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
@@ -19,6 +20,7 @@ import com.squareup.picasso.Picasso
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val gameRepository = GameRepository()
+    private val authRepository = AuthRepository()
     private lateinit var viewModel: GameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +45,7 @@ class HomeFragment : Fragment() {
         viewModel.getUserProfile()
 
         var photoUrl = ""
-        viewModel.user.observe(viewLifecycleOwner) { user ->
+        viewModel.profile.observe(viewLifecycleOwner) { user ->
             when (user) {
                 is Response.Success -> {
                     photoUrl = user.data.profileImage
@@ -93,7 +95,7 @@ class HomeFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameViewModelFactory(gameRepository)
+            GameViewModelFactory(gameRepository, authRepository)
         )[GameViewModel::class.java]
     }
 }

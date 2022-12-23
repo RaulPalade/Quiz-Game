@@ -9,8 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.databinding.FragmentRankingsBinding
+import com.raulp.quizgame.repository.AuthRepository
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
@@ -25,6 +26,7 @@ import com.squareup.picasso.Picasso
 class RankingFragment : Fragment() {
     private lateinit var binding: FragmentRankingsBinding
     private val gameRepository = GameRepository()
+    private val authRepository = AuthRepository()
     private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
@@ -47,7 +49,7 @@ class RankingFragment : Fragment() {
 
         viewModel.getUserProfile()
 
-        viewModel.user.observe(viewLifecycleOwner) { user ->
+        viewModel.profile.observe(viewLifecycleOwner) { user ->
             when (user) {
                 is Response.Success -> {
                     Picasso.get().load(user.data.profileImage).into(binding.profileImage)
@@ -69,9 +71,9 @@ class RankingFragment : Fragment() {
             this.findNavController().navigate(action)
         }
 
-        viewModel.getUsersRanking()
+        viewModel.getRankingList()
 
-        viewModel.userRanking.observe(viewLifecycleOwner) { userRanking ->
+        viewModel.personalRanking.observe(viewLifecycleOwner) { userRanking ->
             binding.playerRanking.text = (userRanking + 1).toString()
         }
 
@@ -92,7 +94,7 @@ class RankingFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameViewModelFactory(gameRepository)
+            GameViewModelFactory(gameRepository, authRepository)
         )[GameViewModel::class.java]
     }
 }

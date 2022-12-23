@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.databinding.FragmentSettingsBinding
+import com.raulp.quizgame.repository.AuthRepository
 import com.raulp.quizgame.repository.GameRepository
 import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
@@ -17,6 +18,7 @@ import com.squareup.picasso.Picasso
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
     private val gameRepository = GameRepository()
+    private val authRepository = AuthRepository()
     private lateinit var viewModel: GameViewModel
 
     override fun onCreateView(
@@ -35,7 +37,7 @@ class SettingsFragment : Fragment() {
 
         viewModel.getUserProfile()
 
-        viewModel.user.observe(viewLifecycleOwner) { user ->
+        viewModel.profile.observe(viewLifecycleOwner) { user ->
             when (user) {
                 is Response.Success -> {
                     Picasso.get().load(user.data.profileImage).into(binding.profileImage)
@@ -60,7 +62,7 @@ class SettingsFragment : Fragment() {
     private fun setupViewModel() {
         viewModel = ViewModelProvider(
             this,
-            GameViewModelFactory(gameRepository)
+            GameViewModelFactory(gameRepository, authRepository)
         )[GameViewModel::class.java]
     }
 }

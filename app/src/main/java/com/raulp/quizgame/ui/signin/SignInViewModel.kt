@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.raulp.quizgame.Response
+import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.data.User
 import com.raulp.quizgame.repository.AuthRepository
 import kotlinx.coroutines.*

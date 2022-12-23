@@ -1,4 +1,4 @@
-package com.raulp.quizgame
+package com.raulp.quizgame.data
 
 /**
  * @author Raul Palade
