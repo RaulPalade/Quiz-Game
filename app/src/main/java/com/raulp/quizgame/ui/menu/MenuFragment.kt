@@ -22,7 +22,7 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.imageButton.setOnClickListener { this.findNavController().popBackStack() }
+        binding.exitBtn.setOnClickListener { this.findNavController().popBackStack() }
 
         binding.homeBtn.setOnClickListener {
             val action = MenuFragmentDirections.actionMenuFragmentToHomeFragment()

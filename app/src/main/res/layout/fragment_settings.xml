@@ -27,11 +27,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/menu_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_menu_button_icon"
                 android:src="@drawable/menu_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,6 @@
                 android:layout_height="54dp"
                 android:layout_marginEnd="10dp"
                 android:adjustViewBounds="true"
-                tools:background="@drawable/girl"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +51,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:strokeColor="@color/white"
-                app:strokeWidth="3dp" />
+                app:strokeWidth="3dp"
+                tools:background="@drawable/girl" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.textview.MaterialTextView
@@ -60,10 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/inika_bold"
             android:gravity="center_horizontal"
-            android:text="Settings"
+            android:text="@string/settings"
             android:textColor="@color/black"
-            android:textFontWeight="700"
             android:textSize="40sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/cd_music_icon"
                 android:src="@drawable/settings_music" />
 
             <TextView
@@ -93,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Music"
+                android:text="@string/music"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -122,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/cd_sound_icon"
                 android:src="@drawable/settings_sound" />
 
             <TextView
@@ -129,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Sound"
+                android:text="@string/sound"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -142,6 +145,4 @@
                 app:track="@drawable/track" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </layout>

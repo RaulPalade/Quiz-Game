@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        binding.imageButton.setOnClickListener {
+        binding.menuBtn.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToMenuFragment()
             this.findNavController().navigate(action)
         }

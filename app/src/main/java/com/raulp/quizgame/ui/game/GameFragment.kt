@@ -171,7 +171,10 @@ class GameFragment : Fragment() {
     }
 
     private fun endGame() {
-        bonusTimer.cancel()
+        if (this::bonusTimer.isInitialized) {
+            bonusTimer.cancel()
+        }
+
         countDownTimer.cancel()
         val action =
             GameFragmentDirections.actionGameStartedFragmentToGameFinishedFragment(game, photoUrl)

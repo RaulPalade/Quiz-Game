@@ -27,11 +27,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/menu_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_menu_button_icon"
                 android:src="@drawable/menu_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,6 @@
                 android:layout_height="54dp"
                 android:layout_marginEnd="10dp"
                 android:adjustViewBounds="true"
-                tools:background="@drawable/girl"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +51,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:strokeColor="@color/white"
-                app:strokeWidth="3dp" />
+                app:strokeWidth="3dp"
+                tools:background="@drawable/girl" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.textview.MaterialTextView
@@ -60,10 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/inika_bold"
             android:gravity="center_horizontal"
-            android:text="Stats"
+            android:text="@string/stats"
             android:textColor="@color/black"
-            android:textFontWeight="700"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,10 +84,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Total Questions:"
+                android:text="@string/total_questions"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -94,7 +94,6 @@
                 android:id="@+id/number_of_questions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="end"
@@ -102,7 +101,6 @@
                 android:textSize="24sp"
                 tools:text="20" />
         </LinearLayout>
-
 
         <LinearLayout
             android:id="@+id/right_answers_row"
@@ -121,13 +119,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/cd_correct_icon"
                 android:src="@drawable/game_finished_correct" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Right Answers:"
+                android:text="@string/right_answers"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -159,6 +158,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/cd_wrong_icon"
                 android:src="@drawable/game_finished_wrong" />
 
             <TextView
@@ -167,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Wrong Answers:"
+                android:text="@string/wrong_answers"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -194,17 +194,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/wrong_answers_row" />
 
-
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/recycler_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/inika_bold"
             android:gravity="center_horizontal"
-            android:text="Ranking"
+            android:text="@string/ranking"
             android:textColor="@color/black"
-            android:textFontWeight="700"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -222,11 +221,12 @@
             app:layout_constraintTop_toBottomOf="@id/recycler_title">
 
             <ImageView
-                android:id="@+id/currect_place_icon"
+                android:id="@+id/correct_place_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/cd_ranking_icon"
                 android:src="@drawable/ranking_current_place" />
 
             <TextView
@@ -235,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Current Place:"
+                android:text="@string/current_place"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -267,6 +267,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
+                android:contentDescription="@string/cd_players_icon"
                 android:src="@drawable/ranking_players_icon" />
 
             <TextView
@@ -274,7 +275,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:text="Players:"
+                android:text="@string/players"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -301,6 +302,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/players_row"
             tools:listitem="@layout/ranking_list_item" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

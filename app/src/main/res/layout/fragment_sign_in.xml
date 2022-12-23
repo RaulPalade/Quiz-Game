@@ -22,12 +22,12 @@
         app:layout_constraintTop_toTopOf="@+id/form_password"
         tools:context=".ui.signin.SignInFragment">
 
-
         <ImageView
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="180sp"
             android:layout_marginBottom="40dp"
+            android:contentDescription="@string/cd_auth"
             android:src="@drawable/main_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/inika_bold"
             android:gravity="center_horizontal"
-            android:text="LOGIN"
+            android:text="@string/login"
+            android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textFontWeight="700"
             android:textSize="32sp"
             app:layout_constraintBottom_toTopOf="@id/form_email"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:text="Email"
+                android:text="@string/email"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -96,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Password"
+                android:text="@string/password_tv"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -115,7 +116,6 @@
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
 
-
         <TextView
             android:id="@+id/btn_forgot_password"
             android:layout_width="match_parent"
@@ -123,7 +123,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="20dp"
             android:gravity="end"
-            android:text="Forgot Password?"
+            android:text="@string/forgot_password"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/btn_login"
@@ -143,7 +143,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:onClick="@{() -> signInViewModel.signIn()}"
             android:paddingBottom="5dp"
-            android:text="Login"
+            android:text="@string/login"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -157,7 +157,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:gravity="center_horizontal"
-            android:text="or"
+            android:text="@string/or"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/btn_login_google"
@@ -174,7 +174,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:paddingStart="10dp"
             android:paddingBottom="2dp"
-            android:text="Login with Google"
+            android:text="@string/login_with_google"
             android:textAllCaps="false"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -189,12 +189,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="New to the game? Register"
+            android:text="@string/new_to_the_game_register"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

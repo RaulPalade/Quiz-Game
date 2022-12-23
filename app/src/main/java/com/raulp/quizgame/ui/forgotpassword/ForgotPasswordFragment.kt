@@ -75,6 +75,7 @@ class ForgotPasswordFragment : Fragment() {
         ).show()
     }
 
+    @Suppress("SameParameterValue")
     private fun errorSnackbar(message: String) {
         Snackbar.make(
             requireActivity().findViewById(android.R.id.content),

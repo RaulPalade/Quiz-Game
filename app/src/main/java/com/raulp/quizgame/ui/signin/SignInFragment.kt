@@ -47,7 +47,7 @@ class SignInFragment : Fragment() {
         binding.signInViewModel = viewModel
         initGoogleSignInClient()
 
-        //viewModel.logOut()
+        viewModel.logOut()
 
         if (viewModel.checkIfUserLoggedIn()) {
             goToHome()
@@ -111,7 +111,6 @@ class SignInFragment : Fragment() {
             if (result.resultCode == RESULT_OK) {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                 try {
-                    // Google Sign In was successful, authenticate with Firebase
                     val account = task.getResult(ApiException::class.java)!!
                     getGoogleAuthCredential(account)
                 } catch (e: ApiException) {

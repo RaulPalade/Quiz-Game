@@ -22,12 +22,12 @@
         app:layout_constraintTop_toTopOf="@+id/form_password"
         tools:context=".ui.signin.SignInFragment">
 
-
         <ImageView
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="180sp"
             android:layout_marginBottom="40dp"
+            android:contentDescription="@string/cd_auth"
             android:src="@drawable/main_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
+            android:fontFamily="@font/inika_bold"
             android:gravity="center_horizontal"
-            android:text="REGISTRATION"
+            android:text="@string/registration"
             android:textColor="@color/black"
-            android:textFontWeight="700"
             android:textSize="32sp"
             app:layout_constraintBottom_toTopOf="@id/form_name"
             app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:text="Name"
+                android:text="@string/name"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -72,13 +72,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/input_label"
                 android:gravity="center_vertical"
+                android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
                 android:text="@={signUpViewModel.name}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="LabelFor,RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout
@@ -96,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
-                android:text="Email"
+                android:text="@string/email"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -106,13 +107,15 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/input_label"
                 android:gravity="center_vertical"
+                android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
+                android:labelFor="@id/password_et"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
                 android:text="@={signUpViewModel.email}"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null"
-                tools:ignore="RtlSymmetry" />
+                tools:ignore="LabelFor,RtlSymmetry" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Password"
+                android:text="@string/password_tv"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -140,6 +143,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/input_label"
                 android:gravity="center_vertical"
+                android:importantForAutofill="no"
                 android:inputType="textPassword"
                 android:paddingStart="12dp"
                 android:paddingBottom="5dp"
@@ -161,7 +165,7 @@
             android:focusableInTouchMode="false"
             android:gravity="center_horizontal|center_vertical"
             android:paddingBottom="5dp"
-            android:text="Add Profile Photo"
+            android:text="@string/add_profile_photo"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -182,7 +186,7 @@
             android:gravity="center_horizontal|center_vertical"
             android:onClick="@{() -> signUpViewModel.signUp()}"
             android:paddingBottom="5dp"
-            android:text="Create Account"
+            android:text="@string/create_account"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="24sp"

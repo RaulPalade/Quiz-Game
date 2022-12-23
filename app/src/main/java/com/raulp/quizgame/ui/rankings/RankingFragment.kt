@@ -59,7 +59,7 @@ class RankingFragment : Fragment() {
         }
 
 
-        binding.imageButton.setOnClickListener {
+        binding.menuBtn.setOnClickListener {
             val action = RankingFragmentDirections.actionRankingFragmentToMenuFragment()
             this.findNavController().navigate(action)
         }

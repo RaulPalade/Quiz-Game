@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">QuizGame</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="SHA1">BE:9B:D0:7E:82:BE:67:53:1B:57:BF:64:3A:AA:B2:01:D7:26:87:B8</string>
-    <string name="google_auth_client_id2">500198612520-mni3i324a3upo1o1e7vvb1v5okeck4qn.apps.googleusercontent.com</string>
-    <string name="google_auth_client_id">713337783977-9ugeadkupfl6pjjvqsvn3jamrft8gikj.apps.googleusercontent.com</string>
+    <string name="google_auth_client_id">713337783977–9ugeadkupfl6pjjvqsvn3jamrft8gikj.apps.googleusercontent.com</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -12,8 +8,50 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="cd_auth">Application Image</string>
+    <string name="restore_password">RESTORE PASSWORD</string>
+    <string name="restore_password_tv">Enter your email in order to request a new password</string>
+    <string name="restore_btn_text">Restore Password</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="password_tv">Password</string>
+    <string name="or">or</string>
+    <string name="login_with_google">Login with Google</string>
+    <string name="new_to_the_game_register">New to the game? Register</string>
+    <string name="registration">REGISTRATION</string>
+    <string name="name">Name</string>
+    <string name="add_profile_photo">Add Profile Photo</string>
+    <string name="create_account">Create Account</string>
+    <string name="cd_menu_button_icon">Menu button icon</string>
+    <string name="play_game_image">play game image</string>
+    <string name="cd_game_card">Game card</string>
+    <string name="stats">Stats</string>
+    <string name="total_questions">Total Questions:</string>
+    <string name="cd_correct_icon">correct_icon</string>
+    <string name="right_answers">Right Answers:</string>
+    <string name="cd_wrong_icon">wrong icon</string>
+    <string name="wrong_answers">Wrong Answers:</string>
+    <string name="ranking">Ranking</string>
+    <string name="cd_ranking_icon">ranking icon</string>
+    <string name="current_place">Current Place:</string>
+    <string name="cd_players_icon">players icon</string>
+    <string name="players">Players:</string>
+    <string name="questions_icon">questions icon</string>
+    <string name="time_icon">time icon</string>
+    <string name="cd_bonus_button">bonus button</string>
+    <string name="cd_exit_button_icon">exit button icon</string>
+    <string name="cd_profile_image">profile image</string>
+    <string name="points">Points:</string>
+    <string name="logout">Logout</string>
+    <string name="cd_points_icon">points icon</string>
+    <string name="settings">Settings</string>
+    <string name="cd_music_icon">music icon</string>
+    <string name="music">Music</string>
+    <string name="cd_sound_icon">sound icon</string>
+    <string name="sound">Sound</string>
+    <string name="cd_menu_button">Menu Choice Button</string>
 </resources>

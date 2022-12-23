@@ -46,7 +46,7 @@ class SettingsFragment : Fragment() {
             }
         }
 
-        binding.imageButton.setOnClickListener {
+        binding.menuBtn.setOnClickListener {
             val action = SettingsFragmentDirections.actionSettingsFragmentToMenuFragment()
             this.findNavController().navigate(action)
         }

@@ -2,10 +2,8 @@ package com.raulp.quizgame.ui.signup
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +17,6 @@ import com.raulp.quizgame.R
 import com.raulp.quizgame.Response
 import com.raulp.quizgame.databinding.FragmentSignUpBinding
 import com.raulp.quizgame.repository.AuthRepository
-import java.io.ByteArrayOutputStream
-
 
 class SignUpFragment : Fragment() {
     private lateinit var binding: FragmentSignUpBinding
@@ -74,13 +70,6 @@ class SignUpFragment : Fragment() {
                 imageUri?.let { viewModel.setProfileImage(it) }
             }
         }
-
-    private fun encodeImage(bitmap: Bitmap): String {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-        val b: ByteArray = outputStream.toByteArray()
-        return Base64.encodeToString(b, Base64.DEFAULT)
-    }
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(

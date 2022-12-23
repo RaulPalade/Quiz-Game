@@ -56,7 +56,7 @@ class GameFinishedFragment : Fragment() {
 
         Picasso.get().load(photoUrl).into(binding.profileImage)
 
-        binding.imageButton.setOnClickListener {
+        binding.menuBtn.setOnClickListener {
             val action = GameFinishedFragmentDirections.actionGameFinishedFragmentToMenuFragment()
             this.findNavController().navigate(action)
         }

@@ -67,7 +67,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.imageButton.setOnClickListener {
+        binding.menuBtn.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToMenuFragment()
             this.findNavController().navigate(action)
         }

@@ -27,11 +27,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/menu_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_menu_button_icon"
                 android:src="@drawable/menu_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +44,6 @@
                 android:layout_height="54dp"
                 android:layout_marginEnd="10dp"
                 android:adjustViewBounds="true"
-                tools:background="@drawable/girl"
                 android:padding="2dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -51,8 +51,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
                 app:strokeColor="@color/white"
-                app:strokeWidth="3dp" />
-
+                app:strokeWidth="3dp"
+                tools:background="@drawable/girl" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.core.widget.NestedScrollView
@@ -78,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="20dp"
+                    android:contentDescription="@string/play_game_image"
                     android:src="@drawable/game_cta" />
 
                 <ImageView
@@ -85,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:contentDescription="Game card"
+                    android:contentDescription="@string/cd_game_card"
                     android:src="@drawable/game_card_1" />
 
                 <ImageView
@@ -93,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:contentDescription="Game card"
+                    android:contentDescription="@string/cd_game_card"
                     android:src="@drawable/game_card_2" />
 
                 <ImageView
@@ -101,11 +102,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:contentDescription="Game card"
+                    android:contentDescription="@string/cd_game_card"
                     android:src="@drawable/game_card_3" />
             </LinearLayout>
-
         </androidx.core.widget.NestedScrollView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

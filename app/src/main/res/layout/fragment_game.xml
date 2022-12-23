@@ -28,11 +28,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/menu_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_menu_button_icon"
                 android:src="@drawable/menu_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,7 +54,6 @@
                 app:strokeColor="@color/white"
                 app:strokeWidth="3dp"
                 tools:background="@drawable/girl" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,6 +70,7 @@
                 android:id="@+id/question_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/questions_icon"
                 android:src="@drawable/game_finished_question"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/total_questions"
@@ -81,8 +82,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:fontFamily="@font/inika_bold"
                 android:textColor="@color/black"
-                android:textFontWeight="700"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/question_icon"
@@ -93,8 +94,8 @@
                 android:id="@+id/points"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/inika_bold"
                 android:textColor="@color/black"
-                android:textFontWeight="700"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/timer"
@@ -107,8 +108,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:fontFamily="@font/inika_bold"
                 android:textColor="@color/black"
-                android:textFontWeight="700"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/timer_icon"
@@ -119,12 +120,11 @@
                 android:id="@+id/timer_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/time_icon"
                 android:src="@drawable/game_clock"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
@@ -143,10 +143,10 @@
             android:id="@+id/question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/inika_bold"
             android:padding="20dp"
             android:textColor="@color/black"
-            android:textFontWeight="700"
-            android:textSize="24dp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@id/questions_list_labels"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -169,12 +169,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/game_answer_label"
+                android:fontFamily="@font/inika_bold"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textFontWeight="700"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 tools:text="A) Turin" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -183,12 +184,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/game_answer_label"
+                android:fontFamily="@font/inika_bold"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textFontWeight="700"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 tools:text="B) Rome" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -197,12 +199,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/game_answer_label"
+                android:fontFamily="@font/inika_bold"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textFontWeight="700"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 tools:text="C) Florence" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -211,15 +214,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/game_answer_label"
+                android:fontFamily="@font/inika_bold"
                 android:gravity="center_vertical"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:textFontWeight="700"
-                android:textSize="24dp"
+                android:textSize="24sp"
                 tools:text="D) Milan" />
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -237,6 +239,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_bonus_button"
                 android:src="@drawable/bonus_delete" />
 
             <ImageButton
@@ -244,26 +247,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_bonus_button"
                 android:src="@drawable/bonus_ideas" />
-
 
             <ImageButton
                 android:id="@+id/double_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_bonus_button"
                 android:src="@drawable/bonus_double" />
-
 
             <ImageButton
                 android:id="@+id/half_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
+                android:contentDescription="@string/cd_bonus_button"
                 android:src="@drawable/bonus_half" />
-
         </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>
