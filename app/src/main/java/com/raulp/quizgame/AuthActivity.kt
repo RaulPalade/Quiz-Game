@@ -6,12 +6,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 
-/**
- * @author Raul Palade
- * @date 07/12/2022
- * @project QuizGame
- */
-
 class AuthActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 

@@ -9,12 +9,6 @@ import com.raulp.quizgame.data.Topic.*
 import com.raulp.quizgame.data.User
 import kotlinx.coroutines.tasks.await
 
-/**
- * @author Raul Palade
- * @date 15/12/2022
- * @project QuizGame
- */
-
 class GameRepository : IGameRepository {
     private val auth = FirebaseAuth.getInstance()
     private val rootRef = FirebaseFirestore.getInstance()

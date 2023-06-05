@@ -5,12 +5,6 @@ import com.google.firebase.auth.AuthCredential
 import com.raulp.quizgame.data.Response
 import com.raulp.quizgame.data.User
 
-/**
- * @author Raul Palade
- * @date 13/12/2022
- * @project QuizGame
- */
-
 interface IAuthRepository {
     suspend fun signInWithGoogle(googleAuthCredential: AuthCredential): Response<User>
 

@@ -5,12 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.raulp.quizgame.repository.AuthRepository
 import com.raulp.quizgame.repository.GameRepository
 
-/**
- * @author Raul Palade
- * @date 15/12/2022
- * @project QuizGame
- */
-
 class GameViewModelFactory(
     private val gameRepository: GameRepository,
     private val authRepository: AuthRepository

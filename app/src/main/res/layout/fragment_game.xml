@@ -243,14 +243,6 @@
                 android:src="@drawable/bonus_delete" />
 
             <ImageButton
-                android:id="@+id/idea_bonus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:contentDescription="@string/cd_bonus_button"
-                android:src="@drawable/bonus_ideas" />
-
-            <ImageButton
                 android:id="@+id/double_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

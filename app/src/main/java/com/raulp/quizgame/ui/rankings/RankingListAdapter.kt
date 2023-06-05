@@ -10,12 +10,6 @@ import com.raulp.quizgame.data.User
 import com.raulp.quizgame.databinding.RankingListItemBinding
 import com.squareup.picasso.Picasso
 
-/**
- * @author Raul Palade
- * @date 18/12/2022
- * @project QuizGame
- */
-
 class RankingListAdapter : ListAdapter<User, RankingListAdapter.RankingViewHolder>(DiffCallback) {
     companion object {
         private val DiffCallback = object : DiffUtil.ItemCallback<User>() {

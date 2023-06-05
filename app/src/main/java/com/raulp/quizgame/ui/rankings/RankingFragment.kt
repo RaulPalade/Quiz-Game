@@ -17,12 +17,6 @@ import com.raulp.quizgame.ui.game.GameViewModel
 import com.raulp.quizgame.ui.game.GameViewModelFactory
 import com.squareup.picasso.Picasso
 
-/**
- * @author Raul Palade
- * @date 19/12/2022
- * @project QuizGame
- */
-
 class RankingFragment : Fragment() {
     private lateinit var binding: FragmentRankingsBinding
     private val gameRepository = GameRepository()

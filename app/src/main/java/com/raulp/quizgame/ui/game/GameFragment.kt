@@ -97,11 +97,6 @@ class GameFragment : Fragment() {
             binding.deleteBonus.isEnabled = false
             binding.deleteBonus.isVisible = false
         }
-        binding.ideaBonus.setOnClickListener {
-            activateBonusIdea()
-            binding.ideaBonus.isEnabled = false
-            binding.ideaBonus.isVisible = false
-        }
         binding.doubleBonus.setOnClickListener {
             activateBonusDouble()
             binding.doubleBonus.isEnabled = false
@@ -206,10 +201,6 @@ class GameFragment : Fragment() {
         }
 
         disableButton(random)
-    }
-
-    private fun activateBonusIdea() {
-
     }
 
     private fun activateBonusDouble() {

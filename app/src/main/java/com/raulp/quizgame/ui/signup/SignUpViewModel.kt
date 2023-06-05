@@ -11,12 +11,6 @@ import com.raulp.quizgame.repository.AuthRepository
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-/**
- * @author Raul Palade
- * @date 12/12/2022
- * @project QuizGame
- */
-
 class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() {
     var name = MutableLiveData<String>()
     var email = MutableLiveData<String>()

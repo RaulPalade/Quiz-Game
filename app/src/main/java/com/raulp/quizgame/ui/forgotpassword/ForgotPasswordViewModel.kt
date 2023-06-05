@@ -9,12 +9,6 @@ import com.raulp.quizgame.repository.AuthRepository
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-/**
- * @author Raul Palade
- * @date 12/12/2022
- * @project QuizGame
- */
-
 class ForgotPasswordViewModel(private val authRepository: AuthRepository) : ViewModel() {
     var email = MutableLiveData<String>()
 
